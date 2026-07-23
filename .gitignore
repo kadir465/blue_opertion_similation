@@ -38,3 +38,8 @@ yarn-error.log*
 # Vite / bundler caches
 .vite/
 .eslintcache
+
+# Python caches
+__pycache__/
+*.pyc
+

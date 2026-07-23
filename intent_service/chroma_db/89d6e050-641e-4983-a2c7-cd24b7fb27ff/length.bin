@@ -1,0 +1,1 @@
+invalid type: string "[Aksiyon] İş Emrini Kapat (ID: aksiyon_is_emrini_kapat)\nAçıklama: İş emri tipindeki bir nesneyi kapatır. İş emri tamamlama ve sonlandırma senaryolarında kullanılır.\nGiriş Parametreleri: input (workorder_enum)\nÇıkış Parametreleri: output (boolean)", expected i64er_enum\", \"required\": true, \"description\": \"Kapatılacak iş emri objesi.\"}], \"outputs\"

@@ -1,3 +1,4 @@
+// sol paneldeki araçlar listeleri ve açıklamaleı 
 export const toolsData = [
   // Portal Nesneleri
   {

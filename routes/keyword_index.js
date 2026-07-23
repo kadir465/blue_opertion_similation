@@ -69,7 +69,7 @@ export function extractStems(text) {
   }
   return stems;
 }
-
+// kök kelime haritası çıkarıyor eşleme kımmsında kullanıyor
 export function buildKeywordIndexLocally(rawTools) {
   const keywordIndex = {};
   for (const tool of rawTools) {

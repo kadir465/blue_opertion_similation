@@ -28,9 +28,9 @@ function getToolKeywordIndex() {
 
 
 
-// In-memory storage for active plans
+// Aktif planlar için bellek içi (in-memory) depolama
 const activePlans = new Map();
-// In-memory storage for conversation memory (context buffer)
+// Sohbet belleği (bağlam havuzu) için bellek içi depolama
 const userMemory = new Map();
 const searchMemory = new Map();
 
@@ -60,15 +60,15 @@ function resolveToolIdByName(toolName) {
     .trim();
   const normalizedSearch = normalize(toolName);
   
-  // 1. Exact or ID Match
+  // 1. Tam Eşleşme veya ID Eşleşmesi
   let tool = rawTools.find(t => normalize(t.name) === normalizedSearch || normalize(t.id) === normalizedSearch);
   if (tool) return tool.id;
 
-  // 2. Substring Match
+  // 2. Alt Dize (Substring) Eşleşmesi
   tool = rawTools.find(t => normalize(t.name).includes(normalizedSearch) || normalizedSearch.includes(normalize(t.name)));
   if (tool) return tool.id;
 
-  // 3. Word overlap Match (if at least one main word matches)
+  // 3. Kelime Kesişimi Eşleşmesi (Eğer en az bir ana kelime eşleşiyorsa)
   const searchWords = normalizedSearch.split(/\s+/).filter(w => w.length > 2);
   if (searchWords.length > 0) {
     tool = rawTools.find(t => {
@@ -84,11 +84,7 @@ function resolveToolIdByName(toolName) {
 function syncPlanWithCanvas(plan, canvasNodes, canvasConnections) {
   if (!plan.instanceNodeMap) plan.instanceNodeMap = {};
 
-  // Every canvas node id already claimed by some instance_key in this plan.
-  // A node can only ever satisfy ONE instance — this is what lets two
-  // instances of the same tool_id (e.g. two Karşılaştırıcı for two
-  // different conditions) be tracked independently instead of one add_node
-  // step completing both / one configure_parameter step overwriting both.
+  //copilotun verdiği planı canvasda kontrol eder sadece kontrol eder adımları
   const claimedNodeIds = new Set(Object.values(plan.instanceNodeMap).filter(Boolean));
 
   for (const step of plan.steps) {
@@ -138,18 +134,7 @@ function syncPlanWithCanvas(plan, canvasNodes, canvasConnections) {
   }
 }
 
-// Detects and builds a plan for compound conditions joined by 've' (AND) or
-// 'veya' (OR) — e.g. "X 50'den fazlaysa VE Y 08:00-18:00 arasındaysa Z yap".
-// Each clause gets its own start-tool (+ Karşılaştırıcı if it needs a
-// numeric threshold), all wired through distinct instance_keys so two
-// clauses can safely use the very same tool_id (two separate Karşılaştırıcı
-// nodes, for example) without colliding. The per-clause boolean results are
-// chained through And Gate / Or Gate tools (binary, so 3+ clauses cascade
-// through multiple gates) and the final gate feeds the end tool's trigger.
-// Returns: { rawSteps, warning, logic, clauseCount } on success,
-//          { error: "..." } if a clause/action couldn't be resolved,
-//          or null if the query has no 've'/'veya' compound logic at all
-//          (caller should fall through to the normal single-condition path).
+// koşullu cümlelerde kontrol saplar koşuldan itibaren böler sonrada ilk kısmı ve diğer kısmı yapar
 function buildMultiConditionSteps(query, rawTools, startTools, endTools, getMatchScore, expandStems, extractStems, hasNumericThresholdSignal, rawIndex, tieBreak) {
   const hasOr = /\bveya\b/i.test(query);
   const hasAnd = /\bve\b/i.test(query);
@@ -213,10 +198,11 @@ function buildMultiConditionSteps(query, rawTools, startTools, endTools, getMatc
     });
   }
 
-  // Dedup: if two clauses picked the same tool, try to assign the alternative
-  // for the one with a lower raw score. This handles cases like "yangın dedektöründe
-  // arıza varsa VEYA kamerada alarm oluşmuşsa" where both clauses score the same
-  // Yangın Dedektörü first but Clause 2 clearly wants Kamera Alarmı.
+  // Tekilleştirme (Dedup): Eğer iki yan tümce de aynı aracı seçerse, daha düşük puanlı
+  // olanına alternatif bir araç atamayı dener. Bu durum, "yangın dedektöründe
+  // arıza varsa VEYA kamerada alarm oluşmuşsa" gibi durumlarda, her iki yan tümcenin de
+  // ilk olarak Yangın Dedektörü'ne puan verdiği ancak 2. yan tümcenin açıkça Kamera Alarmı 
+  // istediği durumları çözer.
   for (let i = 0; i < clausePlans.length; i++) {
     for (let j = i + 1; j < clausePlans.length; j++) {
       if (clausePlans[i].startTool.id === clausePlans[j].startTool.id) {
@@ -239,7 +225,7 @@ function buildMultiConditionSteps(query, rawTools, startTools, endTools, getMatc
   const actionStemsLocal = expandStems(extractStems(actionText));
   let bestEndLocal = null, bestEndScoreLocal = 0;
   for (const tool of endTools) {
-    let score = getMatchScore(tool, actionStemsLocal);
+    let score = getMatchScore(tool, actionStemsLocal);//getmatchscor kısmı da her parça cümleye göre tool seçme işlemi yapar
     if (score === 0) score = getMatchScore(tool, fullQueryStems);
     if (score > bestEndScoreLocal || 
        (score === bestEndScoreLocal && bestEndLocal && tieBreak(tool, bestEndLocal, query, rawIndex) === tool)) {
@@ -250,7 +236,7 @@ function buildMultiConditionSteps(query, rawTools, startTools, endTools, getMatc
   if (!bestEndLocal || bestEndScoreLocal === 0) {
     return { error: `Eylem kısmını ('${actionText.trim()}') analiz edemedim. Lütfen hangi aksiyonu gerçekleştirmek istediğinizi belirtin.` };
   }
-
+// boş listeye adım adım tool ekleme olayı 
   const rawSteps = [];
   let instanceCounter = 0;
 
@@ -285,6 +271,7 @@ function buildMultiConditionSteps(query, rawTools, startTools, endTools, getMatc
   const boolSources = [];
   let usedAnyFallback = false;
 
+  // oluşturulan tool listesinin adım adım nasıl listeleneceğini sağ panelden göstermek için kullanılır
   clausePlans.forEach((cp, i) => {
     const suffix = `Koşul ${i + 1}`;
     if (cp.usedFallback) usedAnyFallback = true;
@@ -304,7 +291,7 @@ function buildMultiConditionSteps(query, rawTools, startTools, endTools, getMatc
       boolSources.push({ instanceKey: startInstance, toolName: cp.startTool.name, outputPort: cp.boolOutputName, labelSuffix: suffix });
     }
   });
-
+// bağlantı için input ve output eşlemesi conect yapar
   const gateTool = rawTools.find(t => t.id === (logic === 'OR' ? 'operator_or_gate' : 'operator_and_gate'));
   let current = boolSources[0];
   for (let i = 1; i < boolSources.length; i++) {
@@ -334,14 +321,6 @@ function buildMultiConditionSteps(query, rawTools, startTools, endTools, getMatc
   };
 }
 
-function stripToolsForLLM(foundTools) {
-  return foundTools.map(tool => ({
-    name: tool.name,
-    inputs: (tool.inputs || []).map(i => i.name),
-    outputs: (tool.outputs || []).map(o => o.name)
-  }));
-}
-
 function buildFullChecklistMessage(plan, rawTools) {
   const firstPendingNo = (plan.steps.find(s => s.status === 'pending') || {}).step_no;
   const completedCount = plan.steps.filter(s => s.status === 'completed').length;
@@ -361,39 +340,10 @@ function buildFullChecklistMessage(plan, rawTools) {
   return header + lines.join('\n') + footer;
 }
 
-function validateLLMOutput(llmJson, allowedTools) {
-  const validToolsNames = allowedTools.map(t => t.name);
-  let safeSteps = [];
 
-  const stepsList = llmJson.steps || [];
-  for (let step of stepsList) {
-    // 1. Araç adı gerçekten listemizde var mı?
-    if (!validToolsNames.includes(step.tool_name)) {
-      console.warn(`[Guardrail] LLM uydurma araç üretti, adım atlanıyor: ${step.tool_name}`);
-      continue;
-    }
 
-    // 2. Bağlantı adımında hedef/kaynak araçlar listemizde var mı?
-    if (step.action === 'connect_nodes') {
-      if (!validToolsNames.includes(step.source_tool) || !validToolsNames.includes(step.target_tool)) {
-        console.warn(`[Guardrail] LLM geçersiz bağlantı kurdu, atlanıyor: ${step.source_tool} -> ${step.target_tool}`);
-        continue;
-      }
-    }
-
-    // Kuralı geçen güvenli adımı listeye ekle
-    safeSteps.push(step);
-  }
-
-  return {
-    missing_tools_warning: llmJson.missing_tools_warning,
-    thought_process: llmJson.thought_process,
-    steps: safeSteps
-  };
-}
-
-// ─── Unified Copilot Route ──────────────────────────────────────────────────
-// Stateful Step-by-Step Plan-Based Pipeline
+// ─── Birleşik Copilot Endpoint ────────────────────────────────────────────────
+// Durum Korumalı (Stateful) Adım-Adım Plan Odaklı İş Akışı Boru Hattı
 // ─────────────────────────────────────────────────────────────────────────────
 router.post('/copilot', async (req, res) => {
   try {
@@ -450,7 +400,7 @@ router.post('/copilot', async (req, res) => {
       history.push({ role: "assistant", content: chatMessage });
       userMemory.set(session_id, history);
 
-      return res.status(200).json({
+      return res.status(200).json({//copilotun ui ile konuşma kısmıdır
         intent: plan.intent || "workflow_creation",
         message: chatMessage,
         metadata: {},
@@ -749,11 +699,11 @@ router.post('/copilot', async (req, res) => {
     for (const tool of startTools) {
       let score = getMatchScore(tool, conditionStems);
       if (score === 0 && conjMatch) {
-        // Fallback to the whole query, but never let a start-tool match be
-        // decided purely by words that belong exclusively to the action
-        // side (e.g. 'çalıştır', 'kural' in '...aşarsa BlueBot kuralını
-        // çalıştır') — that caused unrelated tools whose description just
-        // happens to share an action-side word to be falsely selected.
+        // Tüm sorguya (query) düşerek bir güvenlik ağı oluşturur, ancak sensör eşleşmesinin
+        // SADECE aksiyon tarafına ait kelimelerle karar verilmesine asla izin vermez.
+        // (Örn: "...aşarsa BlueBot kuralını çalıştır" cümlesindeki 'çalıştır', 'kural' gibi)
+        // Eğer buna izin verseydik, açıklaması tesadüfen bu aksiyon kelimelerinden birini içeren
+        // alakasız bir sensör yanlışlıkla en yüksek puanı alıp seçilebilirdi.
         const safeFallbackStems = new Set([...queryStems].filter(s => conditionStems.has(s) || !actionStems.has(s)));
         score = getMatchScore(tool, safeFallbackStems);
       }

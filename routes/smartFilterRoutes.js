@@ -93,7 +93,7 @@ router.post('/analyze-intent', (req, res) => {
 
     const latencyMs = Math.round(performance.now() - startTime);
 
-    return res.status(200).json({
+    return res.status(200).json({//mapping için json formatlı çıktı oluşturu inputu
       intent,
       latency_ms: Math.max(1, latencyMs),
       mapped_parameters: {

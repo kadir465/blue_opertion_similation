@@ -165,7 +165,5 @@ export function findPath(tools, startToolId, endToolId) {
       }
     }
   }
-
-  // Yol bulunamadı
   return null;
 }

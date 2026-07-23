@@ -1,0 +1,36 @@
+{
+  "name": "blue_opertion_ai_model",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server.js",
+    "client": "npm run dev --prefix ui_frontend",
+    "build-client": "npm run build --prefix ui_frontend",
+    "install-all": "npm install && npm install --prefix ui_frontend",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kadir465/blue_opertion_similation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/kadir465/blue_opertion_similation/issues"
+  },
+  "homepage": "https://github.com/kadir465/blue_opertion_similation#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.7.3"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}

@@ -1,0 +1,5093 @@
+[
+  {
+    "id": "portal_acik_is_emirleri",
+    "name": "Açık İş Emirleri",
+    "category": "Portal Nesneleri",
+    "description": "Belirtilen kriterlere göre portaldaki açık durumdaki iş emirlerini sorgular ve workorder_enum tipinde bir liste olarak döndürür. Filtreleme için bina, bölge veya cihaz bazlı kriterler kullanılabilir.",
+    "inputs": [
+      {
+        "name": "filtre_kriteri",
+        "type": "string",
+        "required": false,
+        "description": "İş emirlerini daraltmak için kullanılan opsiyonel filtre kriteri (bina adı, bölge, cihaz tipi vb.).",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "is_emirleri",
+        "type": "workorder_enum",
+        "description": "Kriterlere uyan açık iş emirlerinin listesi."
+      }
+    ],
+    "tags": [
+      "iş emri listesi",
+      "açık iş emirleri",
+      "workorder listesi",
+      "bekleyen görev",
+      "açık görev listesi"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_bina_insan_sayisi",
+    "name": "Bina/İnsan Sayısı",
+    "category": "Portal Nesneleri",
+    "description": "Spesifik bir binaya ait insan sayısı verisini döndürür. Bina parametresi boş bırakılırsa ham binary veri döndürülür. Çıktı tipi people_count formatındadır.",
+    "inputs": [
+      {
+        "name": "building_id",
+        "type": "building_id",
+        "required": false,
+        "description": "Sayı verisi alınacak binanın kimliği. Boş bırakılırsa binary_data döndürülür.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sayi_degeri",
+        "type": "people_count",
+        "description": "Belirtilen binadaki insan sayısı."
+      }
+    ],
+    "tags": [
+      "bina insan sayısı",
+      "binada kaç kişi",
+      "bina bazlı sayı",
+      "bina kişi"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_box_uc_nokta",
+    "name": "Box Uç Nokta",
+    "category": "Portal Nesneleri",
+    "description": "Başka bir BlueBox cihazının uç nokta değerini sorgular ve döndürür. Nokta değeri parametresi boş geçilirse, kuralın bağlı olduğu geçerli nokta varsayılan olarak kabul edilir.",
+    "inputs": [
+      {
+        "name": "nokta_id",
+        "type": "device_uuid",
+        "required": false,
+        "description": "Değeri okunacak BlueBox uç noktasının benzersiz kimliği. Boş bırakılırsa geçerli nokta kullanılır.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "nokta_degeri",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "Sayı/String",
+          "Boolean/Sayı Dönüştürücü",
+          "String/Sayı"
+        ],
+        "description": "BlueBox uç noktasından okunan değer. Tip belirsiz olduğundan, spesifik bir tipe bağlanmadan önce uygun bir Tip Dönüştürücü node'u kullanılması önerilir."
+      }
+    ],
+    "tags": [
+      "box uç nokta",
+      "bluebox nokta değeri",
+      "nokta verisi"
+    ],
+    "role": [
+      "start",
+      "middle"
+    ]
+  },
+  {
+    "id": "portal_bolge_olay_tipi",
+    "name": "Bölge Olay Tipi",
+    "category": "Portal Nesneleri",
+    "description": "Portal üzerinde tanımlı bir olay tipi ile eşleşme kontrolü yapar. Tetikleyici olay tipi belirtilen olay tipiyle eşleşirse çıktı üretir, eşleşmezse çıktı üretmez.",
+    "inputs": [
+      {
+        "name": "olay_tipi",
+        "type": "string",
+        "required": true,
+        "description": "Eşleşme kontrolü yapılacak portal olay tipi adı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "eslesti",
+        "type": "boolean",
+        "description": "Olay tipi eşleşirse true, eşleşmezse çıktı üretilmez."
+      }
+    ],
+    "tags": [
+      "bölge olay tipi",
+      "olay tipi eşleşme",
+      "portal olay eşleştirme"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_cihaz_arizasi",
+    "name": "Cihaz Arızası",
+    "category": "Portal Nesneleri",
+    "description": "Kuralı tetikleyen cihazda arıza durumu olup olmadığını kontrol eder. Yalnızca arıza durumunda çıkış üretir; alarm durumlarında çıkış üretmez. Cihaz sağlık durumu izleme senaryolarında kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "ariza_var",
+        "type": "boolean",
+        "description": "Cihazda arıza tespit edildiyse true döner. Alarm durumlarında çıkış üretilmez."
+      }
+    ],
+    "tags": [
+      "cihaz arızası",
+      "arızalı cihaz",
+      "cihaz bozuldu",
+      "donanım arızası",
+      "cihaz hatası",
+      "sensör arızası",
+      "genel arıza",
+      "cihaz çalışmıyor"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_cihaz_nota_tipi",
+    "name": "Cihaz Nota Tipi",
+    "category": "Portal Nesneleri",
+    "description": "Tetikleyici bir cihazın nota tipi ile eşleşip eşleşmediğini kontrol eder. Eşleşme varsa çıkış üretir, yoksa üretmez.",
+    "inputs": [
+      {
+        "name": "nota_tipi",
+        "type": "string",
+        "required": true,
+        "description": "Eşleşme kontrolü yapılacak cihaz nota tipi.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "eslesti",
+        "type": "boolean",
+        "description": "Cihaz nota tipi eşleşirse true döner."
+      }
+    ],
+    "tags": [
+      "cihaz nota tipi",
+      "not tipi eşleşme",
+      "tetikleyici not türü"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_cihaz_tipi",
+    "name": "Cihaz Tipi",
+    "category": "Portal Nesneleri",
+    "description": "Tetikleyici cihazın tipi ile belirtilen cihaz tipi eşleşiyorsa çıkış üretir. Cihaz tipi bazlı filtreleme ve yönlendirme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "cihaz_tipi",
+        "type": "string",
+        "required": true,
+        "description": "Eşleşme kontrolü yapılacak cihaz tipi adı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "eslesti",
+        "type": "boolean",
+        "description": "Cihaz tipi eşleşirse true döner."
+      }
+    ],
+    "tags": [
+      "cihaz tipi eşleşme",
+      "cihaz türü",
+      "cihaz sınıfı"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_dijital_giris",
+    "name": "Dijital Giriş",
+    "category": "Portal Nesneleri",
+    "description": "Boolean (dijital) tipindeki giriş değerlerini okumak için kullanılır. Açık/kapalı, true/false gibi iki durumlu sensör verilerini almaya yarar.",
+    "inputs": [
+      {
+        "name": "giris_noktasi",
+        "type": "device_uuid",
+        "required": false,
+        "description": "Okunacak dijital giriş noktasının kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "deger",
+        "type": "boolean",
+        "description": "Dijital giriş noktasının mevcut boolean değeri."
+      }
+    ],
+    "tags": [
+      "dijital giriş",
+      "kapı açıldı",
+      "kapı kapandı",
+      "kapı sensörü",
+      "açık kapalı sinyal",
+      "boolean giriş",
+      "kapı durumu",
+      "giriş sensörü",
+      "hareket algılama",
+      "iki durumlu sinyal",
+      "kapı açık",
+      "kapı kapalı"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_draco_input",
+    "name": "Draco İnput",
+    "category": "Portal Nesneleri",
+    "description": "Bir Draco giriş/çıkış noktasının mevcut değerini okur ve döndürür. Draco cihazlarından analog veya dijital veri toplama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "nokta_id",
+        "type": "device_uuid",
+        "required": false,
+        "description": "Değeri okunacak Draco giriş/çıkış noktasının benzersiz kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "deger",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "Sayı/String",
+          "Sayı/Boolean Dönüştürücü",
+          "String/Sayı"
+        ],
+        "description": "Draco giriş/çıkış noktasından okunan mevcut değer. Tip belirsiz olduğundan, spesifik bir tipe bağlanmadan önce uygun bir Tip Dönüştürücü node'u kullanılması önerilir."
+      }
+    ],
+    "tags": [
+      "draco input",
+      "draco giriş noktası",
+      "draco değer okuma"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_draco_sayaci",
+    "name": "Draco Sayacı",
+    "category": "Portal Nesneleri",
+    "description": "Sayaç özelliğine sahip dijital inputların sayaç değerini döndürür. Enerji sayaçları, darbe sayaçları gibi kümülatif veri toplayan Draco noktaları için kullanılır.",
+    "inputs": [
+      {
+        "name": "sayac_noktasi",
+        "type": "device_uuid",
+        "required": false,
+        "description": "Sayaç değeri okunacak dijital giriş noktasının kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sayac_degeri",
+        "type": "integer",
+        "description": "Dijital inputun mevcut sayaç değeri."
+      }
+    ],
+    "tags": [
+      "draco sayacı",
+      "dijital sayaç okuma",
+      "sayaç değeri"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_gecerli_portal_objesi",
+    "name": "Geçerli Portal Objesi",
+    "category": "Portal Nesneleri",
+    "description": "Kuralı tetikleyen mevcut portal objesinin bilgilerini döndürür. Tetikleyici kaynağın kim/ne olduğunu belirlemek için kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "obje",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "String/Sayı",
+          "Sayı/String"
+        ],
+        "description": "Kuralı tetikleyen portal objesinin verileri. Tip belirsiz olduğundan, spesifik bir tipe bağlanmadan önce uygun bir Tip Dönüştürücü node'u kullanılması önerilir."
+      }
+    ],
+    "tags": [
+      "tetikleyen nesne",
+      "geçerli portal objesi",
+      "aktif nesne"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_gecerli_sanal_bolge",
+    "name": "Geçerli Sanal Bölge",
+    "category": "Portal Nesneleri",
+    "description": "Kuralın tetiklendiği sanal bölgenin bilgilerini döndürür. Bölge bazlı otomasyon senaryolarında tetikleyici bölgenin tespiti için kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "bolge",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "String/Sayı",
+          "Sayı/String"
+        ],
+        "description": "Kuralın tetiklendiği sanal bölge objesi. Tip belirsiz olduğundan, spesifik bir tipe bağlanmadan önce uygun bir Tip Dönüştürücü node'u kullanılması önerilir."
+      }
+    ],
+    "tags": [
+      "tetikleyen bölge",
+      "geçerli sanal bölge",
+      "aktif bölge"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_http_request_key",
+    "name": "HTTP Reguest Key",
+    "category": "Portal Nesneleri",
+    "description": "Gelen HTTP isteğinin body kısmından belirtilen bir anahtarın değerini string türünde okur. Webhook veya dış sistem entegrasyonlarında gelen verileri ayrıştırmak için kullanılır.",
+    "inputs": [
+      {
+        "name": "anahtar",
+        "type": "string",
+        "required": true,
+        "description": "HTTP body içinden okunacak JSON anahtarının adı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "deger",
+        "type": "string",
+        "description": "Belirtilen anahtarın HTTP body içindeki string değeri."
+      }
+    ],
+    "tags": [
+      "http istek anahtarı",
+      "http body verisi",
+      "request key"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_http_response_key",
+    "name": "HTTP Response Key",
+    "category": "Portal Nesneleri",
+    "description": "Bir REST API yanıtından belirli bir obje değerini çekmeye yarar. API entegrasyonlarında yanıt verilerini ayrıştırmak ve işlemek için kullanılır.",
+    "inputs": [
+      {
+        "name": "response",
+        "type": "http_response",
+        "required": true,
+        "description": "İşlenecek HTTP yanıt objesi.",
+        "connection": true
+      },
+      {
+        "name": "anahtar",
+        "type": "string",
+        "required": true,
+        "description": "Yanıt içinden çekilecek değerin anahtar yolu.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "deger",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "String/Sayı",
+          "String/Bool",
+          "Sayı/String"
+        ],
+        "description": "Belirtilen anahtara karşılık gelen değer. Tip belirsiz olduğundan, spesifik bir tipe bağlanmadan önce uygun bir Tip Dönüştürücü node'u kullanılması önerilir."
+      }
+    ],
+    "tags": [
+      "http yanıt değeri",
+      "api yanıt anahtarı",
+      "response key"
+    ],
+    "role": [
+      "start",
+      "middle"
+    ]
+  },
+  {
+    "id": "portal_kamera_alarmi",
+    "name": "Kamera Alarmı",
+    "category": "Portal Nesneleri",
+    "description": "Gruba eklenen kameralardan herhangi birinde hata/alarm durumu oluştuğunda çıkış üretir. Kamera sağlık durumu izleme ve alarm yönetimi senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "kamera_grubu",
+        "type": "device_uuid_array",
+        "required": true,
+        "description": "İzlenecek kamera grubundaki cihaz kimliklerinin dizisi.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "alarm_var",
+        "type": "boolean",
+        "description": "Gruptaki kameralarda hata tespit edildiyse true döner."
+      }
+    ],
+    "tags": [
+      "kamera alarmı",
+      "kamera hatası",
+      "kamerada sorun",
+      "kamera grubu alarm",
+      "kamera uyarısı",
+      "kamera arızası"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_notlar",
+    "name": "Notlar",
+    "category": "Portal Nesneleri",
+    "description": "Workflow editör ekranına hatırlatıcı yorumlar ve açıklamalar eklemeye yarar. İş akışının anlaşılabilirliğini artırmak için kullanılan yorum/not bileşenidir. Herhangi bir veri işlemi yapmaz.",
+    "inputs": [
+      {
+        "name": "not_metni",
+        "type": "string",
+        "required": true,
+        "description": "Ekrana eklenecek hatırlatıcı yorum metni.",
+        "connection": false
+      }
+    ],
+    "outputs": [],
+    "tags": [
+      "not ekle",
+      "yorum ekle",
+      "hatırlatıcı",
+      "canvas notu",
+      "açıklama notu"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_obje_bolge",
+    "name": "Obje/Bölge",
+    "category": "Portal Nesneleri",
+    "description": "Belirtilen objelerin seçili bir bölgede bulunup bulunmadığını kontrol eder. Objelerden herhangi biri seçili bölgede tespit edilirse bileşen çıkış üretir. Konum bazlı otomasyon kuralları için kullanılır.",
+    "inputs": [
+      {
+        "name": "obje_listesi",
+        "type": "string_array",
+        "required": true,
+        "description": "Kontrol edilecek obje adlarının veya kimliklerinin dizisi.",
+        "connection": false
+      },
+      {
+        "name": "bolge_id",
+        "type": "building_id",
+        "required": true,
+        "description": "Kontrol yapılacak bölgenin kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "bulundu",
+        "type": "boolean",
+        "description": "Objelerden en az biri bölgede bulunduysa true döner."
+      }
+    ],
+    "tags": [
+      "obje bölgede mi",
+      "nesne konumu",
+      "bölgedeki nesne",
+      "obje takip",
+      "bölgede obje"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_olay_tipi",
+    "name": "Olay Tipi",
+    "category": "Portal Nesneleri",
+    "description": "Halihazırda tetiklenmiş olan programın hangi olay tipiyle tetiklendiğini gösterir. Tetikleme kaynağını belirleyip farklı olay tiplerine göre dallanma yapmak için kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "olay_tipi",
+        "type": "string",
+        "description": "Programı tetikleyen olay tipinin adı."
+      }
+    ],
+    "tags": [
+      "olay tipi göster",
+      "tetikleme türü",
+      "hangi olayla tetiklendi"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_degiskeni",
+    "name": "Portal Değişkeni",
+    "category": "Portal Nesneleri",
+    "description": "Portalda tanımlı bir sanal değişkenin mevcut değerini okur ve döndürür. Portal genelinde paylaşılan global değişkenlere erişmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "degisken_adi",
+        "type": "string",
+        "required": true,
+        "description": "Değeri okunacak portal sanal değişkeninin adı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "deger",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "String/Sayı",
+          "String/Bool",
+          "Sayı/String"
+        ],
+        "description": "Portal sanal değişkeninin mevcut değeri. Tip belirsiz olduğundan, spesifik bir tipe bağlanmadan önce uygun bir Tip Dönüştürücü node'u kullanılması önerilir."
+      }
+    ],
+    "tags": [
+      "portal değişkeni",
+      "sanal değişken okuma",
+      "tanımlı değişken"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_metin_referansi",
+    "name": "Portal Metin Referansı",
+    "category": "Portal Nesneleri",
+    "description": "Portalda bir cihazdan gelen metin referans noktalarının değerini getirir. Cihazlara atanmış metin bazlı referans verilerini okumak için kullanılır.",
+    "inputs": [
+      {
+        "name": "cihaz_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Metin referansı okunacak cihazın benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "referans_noktasi",
+        "type": "string",
+        "required": true,
+        "description": "Okunacak metin referans noktasının adı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "metin_degeri",
+        "type": "string",
+        "description": "Cihazın metin referans noktasının değeri."
+      }
+    ],
+    "tags": [
+      "metin referansı",
+      "cihaz metin değeri",
+      "referans noktası metni"
+    ],
+    "role": [
+      "start",
+      "middle"
+    ]
+  },
+  {
+    "id": "portal_rtls_bolge_envanter_sayisi",
+    "name": "RTLS Bölge Envanter Sayısı",
+    "category": "Portal Nesneleri",
+    "description": "RTLS (Gerçek Zamanlı Konum Sistemi) ile takip edilen bir bölgede bulunan insan harici envanter (ekipman, malzeme vb.) sayısını döndürür.",
+    "inputs": [
+      {
+        "name": "bolge_id",
+        "type": "building_id",
+        "required": true,
+        "description": "Envanter sayısı alınacak RTLS bölgesinin kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "envanter_sayisi",
+        "type": "people_count",
+        "description": "Bölgedeki insan harici envanter sayısı."
+      }
+    ],
+    "tags": [
+      "envanter sayısı",
+      "bölge envanteri",
+      "stok sayısı",
+      "malzeme sayısı",
+      "ürün sayısı",
+      "envanter miktarı",
+      "depo stok",
+      "bölgedeki envanter"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_rtls_bolge_toplam_sayisi",
+    "name": "RTLS Bölge Toplam Sayısı",
+    "category": "Portal Nesneleri",
+    "description": "RTLS ile takip edilen bir bölgede bulunan tüm takip edilebilir objelerin (insan + envanter) toplam sayısını döndürür.",
+    "inputs": [
+      {
+        "name": "bolge_id",
+        "type": "building_id",
+        "required": true,
+        "description": "Toplam sayı alınacak RTLS bölgesinin kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "toplam_sayi",
+        "type": "people_count",
+        "description": "Bölgedeki tüm takip edilebilir objelerin toplam sayısı."
+      }
+    ],
+    "tags": [
+      "bölge toplam nesne",
+      "takip edilen nesne sayısı",
+      "bölgedeki tüm nesneler",
+      "toplam nesne sayısı"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_rtls_bolge_insan_sayisi",
+    "name": "RTLS Bölge İnsan Sayısı",
+    "category": "Portal Nesneleri",
+    "description": "RTLS ile takip edilen bir bölgede bulunan insan sayısını döndürür. Doluluk kontrolü, kapasite yönetimi ve güvenlik senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "bolge_id",
+        "type": "building_id",
+        "required": true,
+        "description": "İnsan sayısı alınacak RTLS bölgesinin kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "insan_sayisi",
+        "type": "people_count",
+        "description": "Bölgedeki mevcut insan sayısı."
+      }
+    ],
+    "tags": [
+      "bölge insan sayısı",
+      "bölgedeki insan sayısı",
+      "kaç kişi var",
+      "kalabalık",
+      "insan sayısı",
+      "kişi sayısı",
+      "ortamdaki insan",
+      "bölge kişi sayısı",
+      "çalışan sayısı",
+      "ziyaretçi sayısı",
+      "bölgede kaç kişi"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_rest_api_response",
+    "name": "RestAPi/Response",
+    "category": "Portal Nesneleri",
+    "description": "Uzak bir sunucuya REST API sorgusu gönderir ve yanıtı http_response tipinde döndürür. GET, POST gibi HTTP metotlarıyla dış sistemlerle entegrasyon kurmak için kullanılır.",
+    "inputs": [
+      {
+        "name": "url",
+        "type": "string",
+        "required": true,
+        "description": "Sorgu yapılacak uzak sunucunun API endpoint URL adresi.",
+        "connection": false
+      },
+      {
+        "name": "metot",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "PATCH"
+        ],
+        "description": "Kullanılacak HTTP metodu.",
+        "connection": false
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "required": false,
+        "description": "HTTP isteğinin gövde içeriği (POST, PUT gibi metotlar için).",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "yanit",
+        "type": "http_response",
+        "description": "Uzak sunucudan alınan HTTP yanıt objesi."
+      }
+    ],
+    "tags": [
+      "rest api sorgula",
+      "uzak sunucu istek",
+      "dış servis sorgusu"
+    ],
+    "role": [
+      "start",
+      "middle"
+    ]
+  },
+  {
+    "id": "portal_temizlik_anket_secenek_degeri",
+    "name": "Temizlik Anket Seçenek Değeri",
+    "category": "Portal Nesneleri",
+    "description": "Temizlik görevinde kullanılan anket tabletinin seçenek değerini döndürür. Temizlik kalite kontrol süreçlerinde anket yanıtlarını okumak için kullanılır.",
+    "inputs": [
+      {
+        "name": "anket_id",
+        "type": "string",
+        "required": false,
+        "description": "Değeri okunacak anketin benzersiz kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "secenek_degeri",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "String/Sayı",
+          "String/Bool"
+        ],
+        "description": "Temizlik anketindeki seçili seçenek değeri. Tip belirsiz olduğundan, spesifik bir tipe bağlanmadan önce uygun bir Tip Dönüştürücü node'u kullanılması önerilir."
+      }
+    ],
+    "tags": [
+      "temizlik anketi değeri",
+      "anket seçeneği",
+      "tablet anket sonucu"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_teknik_sayi_degeri",
+    "name": "Teknik Sayı Değeri",
+    "category": "Portal Nesneleri",
+    "description": "Kuralı tetikleyen noktanın sayısal bir değere sahipse ilgili değeri döndürür. Sensör veya teknik ölçüm noktalarından numerik veri okumak için kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "sayi_degeri",
+        "type": "float",
+        "description": "Tetikleyici noktanın mevcut sayısal değeri."
+      }
+    ],
+    "tags": [
+      "teknik sayı değeri",
+      "sensör ölçüm değeri",
+      "nokta sayısal değeri",
+      "teknik ölçüm",
+      "sayısal sensör okuma"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_yangin_dedektoru_alarmi",
+    "name": "Yangın Dedektörü Alarmı",
+    "category": "Portal Nesneleri",
+    "description": "Gruba eklenen yangın dedektörlerinden herhangi birinde alarm durumu oluştuğunda çıkış üretir. Yangın güvenliği izleme ve acil durum senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "dedektor_grubu",
+        "type": "device_uuid_array",
+        "required": true,
+        "description": "İzlenecek yangın dedektörü grubundaki cihaz kimliklerinin dizisi.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "alarm_var",
+        "type": "boolean",
+        "description": "Gruptaki yangın dedektörlerinden birinde alarm varsa true döner."
+      }
+    ],
+    "tags": [
+      "yangın dedektörü alarmı",
+      "yangın alarmı",
+      "yangın var",
+      "duman algılandı",
+      "yangın sensörü tetiklendi",
+      "yangın uyarısı",
+      "alev dedektörü",
+      "yangın tespiti"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_insan_sayac_dedektoru",
+    "name": "İnsan Sayaç Dedektörü",
+    "category": "Portal Nesneleri",
+    "description": "Spesifik bir insan sayaç dedektörünün değerini döndürür. Dedektör parametresi boş bırakılırsa tetikleyici dedektör varsayılan olarak kullanılır. Çıktı tipi people_count formatındadır.",
+    "inputs": [
+      {
+        "name": "dedektor_id",
+        "type": "device_uuid",
+        "required": false,
+        "description": "Değeri okunacak insan sayaç dedektörünün benzersiz kimliği. Boş bırakılırsa tetikleyici dedektör kullanılır.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "sayac_degeri",
+        "type": "people_count",
+        "description": "Dedektörün mevcut insan sayım değeri."
+      }
+    ],
+    "tags": [
+      "insan sayaç dedektörü",
+      "people count dedektörü",
+      "sayaç dedektörü",
+      "spesifik dedektör"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_insan_sayac_bolge_bina_sayisi",
+    "name": "İnsan/Sayaç (Bölge/Bina Sayısı)",
+    "category": "Portal Nesneleri",
+    "description": "Belirli bir bölge veya binanın insan sayım sonucunu numerik olarak döndürür. Geçersiz veriler -1 olarak döner. Doluluk ve kapasite yönetimi senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "bolge_veya_bina_id",
+        "type": "building_id",
+        "required": true,
+        "description": "Sayım verisi alınacak bölge veya binanın kimliği.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "insan_sayisi",
+        "type": "integer",
+        "description": "Bölge veya binadaki insan sayısı. Geçersiz verilerde -1 döner."
+      }
+    ],
+    "tags": [
+      "bölge bina insan sayısı",
+      "sayım sonucu",
+      "insan sayım numeric"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "portal_is_emri_uuid",
+    "name": "İş Emri (UUID)",
+    "category": "Portal Nesneleri",
+    "description": "Verilen UUID değeri ile portalda kayıtlı bir iş emrini getirir. Belirli bir iş emrine doğrudan erişmek ve detaylarını okumak için kullanılır.",
+    "inputs": [
+      {
+        "name": "uuid",
+        "type": "string",
+        "required": true,
+        "description": "Getirilecek iş emrinin benzersiz UUID değeri.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "is_emri",
+        "type": "workorder_enum",
+        "description": "UUID ile eşleşen iş emri objesi."
+      }
+    ],
+    "tags": [
+      "iş emri uuid ile getir",
+      "uuid iş emri",
+      "iş emri kimliği ile bul"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "operator_and_gate",
+    "name": "And Gate",
+    "category": "Operatörler",
+    "description": "Mantıksal VE (AND) kapısı. Tüm boolean girişler true olduğunda çıkış true üretir, aksi halde false döner. Birden fazla koşulun aynı anda sağlanması gereken senaryolarda kullanılır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "boolean",
+        "required": true,
+        "description": "Birinci boolean giriş değeri.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "boolean",
+        "required": true,
+        "description": "İkinci boolean giriş değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Tüm girişler true ise true, aksi halde false."
+      }
+    ],
+    "tags": [
+      "ve kapısı",
+      "mantıksal ve",
+      "her iki koşul",
+      "iki şart birden",
+      "and kapısı"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_bool_secici",
+    "name": "Bool Seçici",
+    "category": "Operatörler",
+    "description": "Seçici boolean girişin durumuna göre iki farklı boolean girişten birini çıkışa yönlendirir. Koşullu dallanma ve veri yönlendirme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "secici",
+        "type": "boolean",
+        "required": true,
+        "description": "Hangi girişin çıkışa yönlendirileceğini belirleyen seçici boolean değer.",
+        "connection": true
+      },
+      {
+        "name": "input_true",
+        "type": "boolean",
+        "required": true,
+        "description": "Seçici true olduğunda çıkışa aktarılacak boolean değer.",
+        "connection": true
+      },
+      {
+        "name": "input_false",
+        "type": "boolean",
+        "required": true,
+        "description": "Seçici false olduğunda çıkışa aktarılacak boolean değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Seçicinin durumuna göre yönlendirilen boolean değer."
+      }
+    ],
+    "tags": [
+      "bool seçici",
+      "koşullu yönlendirme",
+      "boolean seçici"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_karsilastirici",
+    "name": "Karşılaştırıcı",
+    "category": "Operatörler",
+    "description": "İki sayısal değeri birbiriyle karşılaştırır ve sonucu boolean olarak döndürür. Büyüktür, küçüktür, eşittir gibi karşılaştırma operatörleri desteklenir.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Karşılaştırılacak birinci sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Karşılaştırılacak ikinci sayısal değer.",
+        "connection": false
+      },
+      {
+        "name": "operator",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "==",
+          "!=",
+          ">",
+          "<",
+          ">=",
+          "<="
+        ],
+        "description": "Uygulanacak karşılaştırma operatörü.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Karşılaştırma sonucu."
+      }
+    ],
+    "tags": [
+      "karşılaştırıcı",
+      "büyük mü küçük mü",
+      "eşik karşılaştırması",
+      "sayısal karşılaştırma",
+      "geçti mi aştı mı",
+      "değer kıyasla",
+      "karşılaştır"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_nand_kapisi",
+    "name": "Nand Kapısı",
+    "category": "Operatörler",
+    "description": "Mantıksal VE DEĞİL (NAND) kapısı. AND kapısının tersini üretir; tüm girişler true olduğunda false, diğer durumlarda true döner.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "boolean",
+        "required": true,
+        "description": "Birinci boolean giriş değeri.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "boolean",
+        "required": true,
+        "description": "İkinci boolean giriş değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "NAND işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "nand kapısı",
+      "mantıksal ve değil"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_nor_kapisi",
+    "name": "Nor Kapısı",
+    "category": "Operatörler",
+    "description": "Mantıksal VEYA DEĞİL (NOR) kapısı. OR kapısının tersini üretir; tüm girişler false olduğunda true, diğer durumlarda false döner.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "boolean",
+        "required": true,
+        "description": "Birinci boolean giriş değeri.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "boolean",
+        "required": true,
+        "description": "İkinci boolean giriş değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "NOR işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "nor kapısı",
+      "mantıksal veya değil"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_not_gate",
+    "name": "Not Gate",
+    "category": "Operatörler",
+    "description": "Mantıksal DEĞİL (NOT) kapısı. Girişteki boolean değerin tersini üretir. True girişe false, false girişe true çıktı verir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "boolean",
+        "required": true,
+        "description": "Terslenecek boolean giriş değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Girişin tersi olan boolean değer."
+      }
+    ],
+    "tags": [
+      "not kapısı",
+      "mantıksal değil",
+      "tersine çevir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_numerik_secici",
+    "name": "Numerik Seçici",
+    "category": "Operatörler",
+    "description": "Seçici boolean girişin durumuna göre iki farklı numerik girişten birini çıkışa yönlendirir. Koşullu sayısal veri akışı senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "secici",
+        "type": "boolean",
+        "required": true,
+        "description": "Hangi numerik girişin çıkışa yönlendirileceğini belirleyen seçici boolean değer.",
+        "connection": true
+      },
+      {
+        "name": "input_true",
+        "type": "float",
+        "required": true,
+        "description": "Seçici true olduğunda çıkışa aktarılacak sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "input_false",
+        "type": "float",
+        "required": true,
+        "description": "Seçici false olduğunda çıkışa aktarılacak sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Seçicinin durumuna göre yönlendirilen sayısal değer."
+      }
+    ],
+    "tags": [
+      "numerik seçici",
+      "sayısal yönlendirme"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_or_gate",
+    "name": "Or Gate",
+    "category": "Operatörler",
+    "description": "Mantıksal VEYA (OR) kapısı. Boolean girişlerden en az biri true olduğunda çıkış true üretir, tümü false ise false döner.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "boolean",
+        "required": true,
+        "description": "Birinci boolean giriş değeri.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "boolean",
+        "required": true,
+        "description": "İkinci boolean giriş değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "OR işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "veya kapısı",
+      "mantıksal veya",
+      "herhangi bir koşul",
+      "ya da",
+      "or kapısı"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_string_secici",
+    "name": "String Seçici",
+    "category": "Operatörler",
+    "description": "Bir boolean seçici değere göre birinci veya ikinci string girişi çıkışa aktarır. Metin bazlı koşullu yönlendirme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "secici",
+        "type": "boolean",
+        "required": true,
+        "description": "Hangi string girişin çıkışa aktarılacağını belirleyen seçici boolean değer.",
+        "connection": true
+      },
+      {
+        "name": "input_true",
+        "type": "string",
+        "required": true,
+        "description": "Seçici true olduğunda çıkışa aktarılacak string değer.",
+        "connection": true
+      },
+      {
+        "name": "input_false",
+        "type": "string",
+        "required": true,
+        "description": "Seçici false olduğunda çıkışa aktarılacak string değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Seçicinin durumuna göre yönlendirilen string değer."
+      }
+    ],
+    "tags": [
+      "string seçici",
+      "metin yönlendirme",
+      "koşullu metin seçimi"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_xnor_gate",
+    "name": "XNoR Gate",
+    "category": "Operatörler",
+    "description": "Mantıksal ÖZEL VEYA DEĞİL (XNOR) kapısı. İki giriş aynı değere sahipse true, farklıysa false döner. Eşitlik kontrolü senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "boolean",
+        "required": true,
+        "description": "Birinci boolean giriş değeri.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "boolean",
+        "required": true,
+        "description": "İkinci boolean giriş değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "XNOR işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "xnor kapısı",
+      "özel veya değil"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "operator_xor_gate",
+    "name": "XoR Gate",
+    "category": "Operatörler",
+    "description": "Mantıksal ÖZEL VEYA (XOR) kapısı. İki giriş farklı değere sahipse true, aynıysa false döner.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "boolean",
+        "required": true,
+        "description": "Birinci boolean giriş değeri.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "boolean",
+        "required": true,
+        "description": "İkinci boolean giriş değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "XOR işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "xor kapısı",
+      "özel veya",
+      "farklı mı"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_ark_kosinus",
+    "name": "Ark Kosinüs",
+    "category": "Matematik",
+    "description": "Girişteki numerik değerin ark kosinüs (acos) değerini hesaplar ve çıkışa aktarır. Trigonometrik ters fonksiyon hesaplamalarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Ark kosinüsü hesaplanacak numerik değer (-1 ile 1 arasında).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan ark kosinüs değeri (radyan cinsinden)."
+      }
+    ],
+    "tags": [
+      "ark kosinüs",
+      "acos"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_ark_sinus",
+    "name": "Ark Sinüs",
+    "category": "Matematik",
+    "description": "Girişteki numerik değerin ark sinüs (asin) değerini hesaplar ve çıkışa aktarır. Trigonometrik ters fonksiyon hesaplamalarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Ark sinüsü hesaplanacak numerik değer (-1 ile 1 arasında).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan ark sinüs değeri (radyan cinsinden)."
+      }
+    ],
+    "tags": [
+      "ark sinüs",
+      "asin"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_ark_tanjant",
+    "name": "Ark Tanjant",
+    "category": "Matematik",
+    "description": "Girişteki numerik değerin ark tanjant (atan) değerini hesaplar ve çıkışa aktarır. Trigonometrik ters fonksiyon hesaplamalarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Ark tanjantı hesaplanacak numerik değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan ark tanjant değeri (radyan cinsinden)."
+      }
+    ],
+    "tags": [
+      "ark tanjant",
+      "atan"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_ay_numarasi",
+    "name": "Ay Numarası",
+    "category": "Matematik",
+    "description": "Şu anki tarihin hangi ayda olduğunu numerik olarak döndürür (1-12 arası). Zaman bazlı otomasyon kurallarında ay kontrolü için kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Mevcut ayın numerik değeri (1=Ocak, 12=Aralık)."
+      }
+    ],
+    "tags": [
+      "ay numarası",
+      "hangi ay",
+      "kaçıncı ay"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_aci_donusturucu",
+    "name": "Açı Dönüştürücü",
+    "category": "Matematik",
+    "description": "Girişteki açı değerini belirtilen kaynak birimden hedef birime dönüştürür. Derece, radyan ve gradian birimleri arasında çevrim yapar.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Dönüştürülecek açı değeri.",
+        "connection": true
+      },
+      {
+        "name": "kaynak_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "derece",
+          "radyan",
+          "gradian"
+        ],
+        "description": "Giriş değerinin mevcut açı birimi.",
+        "connection": true
+      },
+      {
+        "name": "hedef_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "derece",
+          "radyan",
+          "gradian"
+        ],
+        "description": "Dönüştürülmek istenen hedef açı birimi.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hedef birime dönüştürülmüş açı değeri."
+      }
+    ],
+    "tags": [
+      "açı dönüştürücü",
+      "derece radyan çevir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_bar_yukseklik",
+    "name": "Bar/Yükseklik",
+    "category": "Matematik",
+    "description": "Girişteki bar cinsinden basınç değerini metre cinsinden sıvı yüksekliğine çevirir. Hidrostatik basınç hesaplamalarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Çevrilecek basınç değeri (bar cinsinden).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan sıvı yüksekliği (metre cinsinden)."
+      }
+    ],
+    "tags": [
+      "bar yükseklik",
+      "basınç sıvı yüksekliği"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_base64_decoder_encode",
+    "name": "Base64 Decoder/Encode",
+    "category": "Matematik",
+    "description": "Bir string değeri Base64 formatına kodlar veya Base64 kodlu bir stringi çözer. Veri iletimi ve şifreleme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Kodlanacak veya çözülecek string değer.",
+        "connection": true
+      },
+      {
+        "name": "islem",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "encode",
+          "decode"
+        ],
+        "description": "Yapılacak işlem: encode (kodlama) veya decode (çözme).",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Base64 kodlanmış veya çözülmüş string."
+      }
+    ],
+    "tags": [
+      "base64 decode encode",
+      "base64 kodla çöz"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_basinc_birim_cevirici",
+    "name": "Basınç Birim Çevirici",
+    "category": "Matematik",
+    "description": "Seçili giriş basınç birimini hedef basınç birimine çevirir. Bar, PSI, atm, Pa gibi birimler arasında dönüşüm yapar.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Çevrilecek basınç değeri.",
+        "connection": true
+      },
+      {
+        "name": "kaynak_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "bar",
+          "psi",
+          "atm",
+          "pa",
+          "kpa",
+          "mbar"
+        ],
+        "description": "Giriş değerinin mevcut basınç birimi.",
+        "connection": false
+      },
+      {
+        "name": "hedef_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "bar",
+          "psi",
+          "atm",
+          "pa",
+          "kpa",
+          "mbar"
+        ],
+        "description": "Dönüştürülmek istenen hedef basınç birimi.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hedef birime dönüştürülmüş basınç değeri."
+      }
+    ],
+    "tags": [
+      "basınç birimi çevir",
+      "bar pascal dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_binary_string_sayi",
+    "name": "Binary String/Sayı",
+    "category": "Matematik",
+    "description": "Binary (ikili) formattaki bir string değeri ondalık sayıya dönüştürür. İkili sistemden ondalık sisteme çevrim yapar.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Dönüştürülecek binary formattaki string (örn: '10110').",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Binary stringin ondalık sayı karşılığı."
+      }
+    ],
+    "tags": [
+      "binary stringe çevir",
+      "ikili sayı dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_bit",
+    "name": "Bit",
+    "category": "Matematik",
+    "description": "Sabit bir bit değeri (0 veya 1) tanımlar ve çıkışa aktarır. Boolean sabit olarak iş akışlarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "boolean",
+        "required": true,
+        "description": "Sabit bit değeri (true=1, false=0).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Tanımlanan sabit bit değeri."
+      }
+    ],
+    "tags": [
+      "bit değeri",
+      "sabit bit"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_bits_byte_donusturucu",
+    "name": "Bits/Byte Dönüştürücü",
+    "category": "Matematik",
+    "description": "8 bitlik bir değeri 1 byte'a dönüştürür. Bit düzeyinde veri manipülasyonu ve protokol işleme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "8 bitlik değer (örn: '10110011').",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Dönüştürülmüş byte değeri."
+      }
+    ],
+    "tags": [
+      "bits byte dönüşüm",
+      "8 bit 1 byte"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_bool_string",
+    "name": "Bool/String",
+    "category": "Matematik",
+    "description": "Boolean tipindeki veriyi string formatına dönüştürür. true değeri 'true', false değeri 'false' stringine çevrilir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "boolean",
+        "required": true,
+        "description": "String'e dönüştürülecek boolean değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Boolean değerin string karşılığı."
+      }
+    ],
+    "tags": [
+      "bool string çevir",
+      "boolean metne dönüştür"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_boolean_sayi_donusturucu",
+    "name": "Boolean/Sayı Dönüştürücü",
+    "category": "Matematik",
+    "description": "Girişteki boolean (binary) değeri numerik değere dönüştürür. true=1, false=0 olarak sayısal çıktı üretir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "boolean",
+        "required": true,
+        "description": "Sayıya dönüştürülecek boolean değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Boolean değerin numerik karşılığı (0 veya 1)."
+      }
+    ],
+    "tags": [
+      "boolean sayıya çevir",
+      "bool numeric dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_byte_bit_donusturucu",
+    "name": "Byte/Bit Dönüştürücü",
+    "category": "Matematik",
+    "description": "Girişteki byte değerini binary sisteme çevirir ve seçili bitin değerini döndürür. Belirli bir bitin durumunu kontrol etmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "integer",
+        "required": true,
+        "description": "Binary sisteme çevrilecek byte değeri.",
+        "connection": true
+      },
+      {
+        "name": "bit_indeksi",
+        "type": "integer",
+        "required": true,
+        "description": "Değeri okunacak bitin indeks numarası (0-7).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Seçili bitin boolean değeri."
+      }
+    ],
+    "tags": [
+      "byte bit çevir",
+      "byte ikili sisteme"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_bolme",
+    "name": "Bölme",
+    "category": "Matematik",
+    "description": "İki sayısal değeri birbirine böler ve sonucu döndürür. Temel aritmetik bölme işlemi gerçekleştirir.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Bölünecek sayısal değer (pay).",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Bölen sayısal değer (payda). Sıfır olamaz.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Bölme işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "bölme işlemi",
+      "sayıyı böl",
+      "iki sayı böl"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_ceil",
+    "name": "Ceil",
+    "category": "Matematik",
+    "description": "Giriş değerini yukarı yuvarlar ve belirli bir sayıdan büyük veya ona eşit olan en küçük tamsayıyı döndürür. Matematiksel tavan fonksiyonudur.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Yukarı yuvarlanacak sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Yukarı yuvarlanmış tamsayı değer."
+      }
+    ],
+    "tags": [
+      "ceil yuvarla",
+      "yukarı yuvarlama",
+      "tavan fonksiyonu"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_dakika",
+    "name": "Dakika",
+    "category": "Matematik",
+    "description": "Mevcut zamanın sadece dakika bileşenini numerik olarak döndürür (0-59 arası). Zamanlama ve periyodik kontrol senaryolarında kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Mevcut zamanın dakika bileşeni (0-59)."
+      }
+    ],
+    "tags": [
+      "dakika değeri",
+      "şu anki dakika"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_epoch_tarih",
+    "name": "Epoch/Tarih",
+    "category": "Matematik",
+    "description": "Girdi olarak gelen UNIX zaman damgasını (epoch sayısal değer) Tarih/Zaman objesine dönüştürür. Epoch formatındaki verileri tarih objesine çevirmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "epoch_integer",
+        "required": true,
+        "description": "Dönüştürülecek UNIX zaman damgası (epoch saniye, sayısal).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "datetime_object",
+        "description": "Epoch değerinden oluşturulan Tarih/Zaman objesi."
+      }
+    ],
+    "tags": [
+      "epoch tarihe çevir",
+      "unix timestamp tarih dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_exp",
+    "name": "Exp",
+    "category": "Matematik",
+    "description": "Euler sayısının (e ≈ 2.71828) belirtilen üssünü hesaplar ve sonucu döndürür. Üstel büyüme ve logaritmik hesaplamalarda kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "e sayısının kuvveti olarak kullanılacak üs değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "e^üs hesaplamasının sonucu."
+      }
+    ],
+    "tags": [
+      "exp hesapla",
+      "e üssü"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_faktoriyel",
+    "name": "Faktöriyel",
+    "category": "Matematik",
+    "description": "Girişteki tamsayının faktöriyelini hesaplar ve çıkışa gönderir. n! = n × (n-1) × ... × 1 formülünü uygular.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "integer",
+        "required": true,
+        "description": "Faktöriyeli hesaplanacak negatif olmayan tamsayı.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Faktöriyel hesaplamasının sonucu."
+      }
+    ],
+    "tags": [
+      "faktöriyel hesapla"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_gamma_fonksiyonu",
+    "name": "Gamma Fonksiyonu",
+    "category": "Matematik",
+    "description": "Gamma fonksiyonu, faktöriyel fonksiyonun karmaşık sayılar ve tam sayı olmayan reel sayılar için genellemesidir. Г(n) = (n-1)! ilişkisini sağlar. İleri düzey matematiksel hesaplamalarda kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Gamma fonksiyonu uygulanacak sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Gamma fonksiyonunun sonucu."
+      }
+    ],
+    "tags": [
+      "gamma fonksiyonu"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_gun_numarasi",
+    "name": "Gün Numarası",
+    "category": "Matematik",
+    "description": "Ayın kaçıncı günü olduğunu numerik olarak döndürür (1-31 arası). Zaman bazlı otomasyon kurallarında gün kontrolü için kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Ayın mevcut gün numarası (1-31)."
+      }
+    ],
+    "tags": [
+      "gün numarası",
+      "ayın kaçıncı günü"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_gun_kontrol",
+    "name": "Gün?",
+    "category": "Matematik",
+    "description": "Şimdiki zamanı belirtilen bir gün ile karşılaştırır. Haftanın belirli bir gününde tetiklenecek kurallar için gün eşleşme kontrolü yapar.",
+    "inputs": [
+      {
+        "name": "gun",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "pazartesi",
+          "sali",
+          "carsamba",
+          "persembe",
+          "cuma",
+          "cumartesi",
+          "pazar"
+        ],
+        "description": "Karşılaştırılacak gün adı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Mevcut gün belirtilen gün ile eşleşiyorsa true döner."
+      }
+    ],
+    "tags": [
+      "günü karşılaştır",
+      "bugün mü",
+      "hangi gün kontrolü"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_haftasonu",
+    "name": "Haftasonu",
+    "category": "Matematik",
+    "description": "Şimdiki zamanın hafta sonuna (Cumartesi veya Pazar) denk gelip gelmediğini kontrol eder. Hafta sonu ise çıkış üretir.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Mevcut gün hafta sonu ise true döner."
+      }
+    ],
+    "tags": [
+      "hafta sonu mu",
+      "cumartesi pazar kontrolü"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_hash_fonksiyonu",
+    "name": "Hash Fonksiyonu",
+    "category": "Matematik",
+    "description": "Bir string değeri belirtilen algoritma ile hash'ler. MD5, SHA-256 gibi hash algoritmaları desteklenir. Veri bütünlüğü kontrolü ve güvenlik senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Hash'lenecek string değer.",
+        "connection": true
+      },
+      {
+        "name": "algoritma",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "md5",
+          "sha1",
+          "sha256",
+          "sha512"
+        ],
+        "description": "Kullanılacak hash algoritması.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Hesaplanan hash değeri."
+      }
+    ],
+    "tags": [
+      "hash fonksiyonu",
+      "string hash"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_hexstring_sayi",
+    "name": "HexString/Sayı",
+    "category": "Matematik",
+    "description": "Hexadecimal (16'lık taban) formattaki bir string değeri ondalık sayıya dönüştürür.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Dönüştürülecek hexadecimal formattaki string (örn: 'FF', '1A3B').",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Hexadecimal stringin ondalık sayı karşılığı."
+      }
+    ],
+    "tags": [
+      "hex string sayıya",
+      "hexadecimal sayıya çevir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_hiperbolik_sinus",
+    "name": "Hiperbolik Sinüs",
+    "category": "Matematik",
+    "description": "Girişteki numerik değerin hiperbolik sinüs (sinh) değerini hesaplar ve çıkışa aktarır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Hiperbolik sinüsü hesaplanacak numerik değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan hiperbolik sinüs değeri."
+      }
+    ],
+    "tags": [
+      "hiperbolik sinüs",
+      "sinh"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_kosinus",
+    "name": "Kosinüs",
+    "category": "Matematik",
+    "description": "Girişteki numerik değerin kosinüs (cos) değerini hesaplar ve çıkışa aktarır. Trigonometrik hesaplamalarda kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Kosinüsü hesaplanacak numerik değer (radyan cinsinden).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan kosinüs değeri."
+      }
+    ],
+    "tags": [
+      "kosinüs",
+      "cos"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_kok",
+    "name": "Kök",
+    "category": "Matematik",
+    "description": "Sayısal bir değerin n. dereceden kökünü alır. Karekök (n=2) veya daha yüksek dereceden kök hesaplamalarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Kökü alınacak sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "derece",
+        "type": "integer",
+        "required": true,
+        "description": "Kökün derecesi (2=karekök, 3=küpkök vb.).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "N. dereceden kök hesaplamasının sonucu."
+      }
+    ],
+    "tags": [
+      "karekök",
+      "n. derece kök"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_logaritma",
+    "name": "Logaritma",
+    "category": "Matematik",
+    "description": "Giriş değerinin belirtilen tabandaki logaritmasını hesaplar. Doğal logaritma (e tabanı), 10 tabanı veya özel taban desteklenir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Logaritması hesaplanacak pozitif sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "taban",
+        "type": "float",
+        "required": true,
+        "description": "Logaritma tabanı (örn: 2, 10, e).",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Logaritma hesaplamasının sonucu."
+      }
+    ],
+    "tags": [
+      "logaritma hesapla",
+      "log fonksiyonu"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_menzil_yuzde",
+    "name": "Menzil/Yüzde",
+    "category": "Matematik",
+    "description": "Limitleri belli bir değer aralığı için giriş değerini yüzdesel orana çevirir. Minimum ve maksimum sınırlar arasında giriş değerinin yüzde kaçlık dilimde olduğunu hesaplar.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Yüzdesel orana çevrilecek giriş değeri.",
+        "connection": true
+      },
+      {
+        "name": "min_deger",
+        "type": "float",
+        "required": true,
+        "description": "Aralığın minimum sınır değeri.",
+        "connection": false
+      },
+      {
+        "name": "max_deger",
+        "type": "float",
+        "required": true,
+        "description": "Aralığın maksimum sınır değeri.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Giriş değerinin belirlenen aralıktaki yüzdesel konumu."
+      }
+    ],
+    "tags": [
+      "menzil yüzde",
+      "aralık yüzdesi"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_min_max",
+    "name": "Min/Max",
+    "category": "Matematik",
+    "description": "Seçilen davranış fonksiyonuna göre iki sayısal değeri karşılaştırarak minimum veya maksimum olanı çıkışa aktarır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Karşılaştırılacak birinci sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Karşılaştırılacak ikinci sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "fonksiyon",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "min",
+          "max"
+        ],
+        "description": "Uygulanacak fonksiyon: minimum veya maksimum.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Seçilen fonksiyona göre belirlenen minimum veya maksimum değer."
+      }
+    ],
+    "tags": [
+      "minimum maksimum",
+      "en küçük en büyük"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_mod",
+    "name": "Mod",
+    "category": "Matematik",
+    "description": "Girişteki değerin mod (kalan) değerini hesaplar. Bölme işleminden kalan değeri döndürür.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Mod işlemi uygulanacak sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Mod (bölücü) değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Mod işleminin sonucu (kalan değer)."
+      }
+    ],
+    "tags": [
+      "modülo",
+      "bölme kalanı",
+      "mod hesapla"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_mutlak_deger",
+    "name": "Mutlak Değer",
+    "category": "Matematik",
+    "description": "Girişteki numerik verinin mutlak değerini alır. Negatif sayıları pozitife çevirir, pozitif sayılar değişmez.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Mutlak değeri alınacak sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Girişin mutlak değeri."
+      }
+    ],
+    "tags": [
+      "mutlak değer",
+      "abs fonksiyonu"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_obeb",
+    "name": "OBEB",
+    "category": "Matematik",
+    "description": "İki tamsayının ortak bölenlerinin en büyüğünü (OBEB / GCD) bulur. Matematiksel hesaplama ve veri işleme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "integer",
+        "required": true,
+        "description": "Birinci tamsayı.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "integer",
+        "required": true,
+        "description": "İkinci tamsayı.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "İki sayının en büyük ortak böleni."
+      }
+    ],
+    "tags": [
+      "obeb hesapla",
+      "en büyük ortak bölen"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_okek",
+    "name": "OKEK",
+    "category": "Matematik",
+    "description": "İki tamsayının ortak katlarının en küçüğünü (OKEK / LCM) bulur. Matematiksel hesaplama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "integer",
+        "required": true,
+        "description": "Birinci tamsayı.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "integer",
+        "required": true,
+        "description": "İkinci tamsayı.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "İki sayının en küçük ortak katı."
+      }
+    ],
+    "tags": [
+      "okek hesapla",
+      "en küçük ortak kat"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_pi",
+    "name": "Pi",
+    "category": "Matematik",
+    "description": "Pi (π ≈ 3.14159) matematiksel sabit sayısını döndürür. Trigonometrik ve geometrik hesaplamalarda kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Pi sabitinin değeri (3.14159265...)."
+      }
+    ],
+    "tags": [
+      "pi sayısı"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_put_string_char",
+    "name": "Put String Char",
+    "category": "Matematik",
+    "description": "Bir stringin belirli bir noktasından başlayarak belirtilen miktarda karakter çeker. Alt string (substring) çıkarma işlemi gerçekleştirir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Karakter çekilecek kaynak string.",
+        "connection": true
+      },
+      {
+        "name": "baslangic_indeksi",
+        "type": "integer",
+        "required": true,
+        "description": "Çekme işleminin başlayacağı karakter indeksi.",
+        "connection": true
+      },
+      {
+        "name": "miktar",
+        "type": "integer",
+        "required": true,
+        "description": "Çekilecek karakter sayısı.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Çekilen alt string."
+      }
+    ],
+    "tags": [
+      "string karakter çek",
+      "yazıdan karakter al"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_rastgele",
+    "name": "Rastgele",
+    "category": "Matematik",
+    "description": "Belirtilen minimum ve maksimum değer aralığında rastgele bir sayı üretir. Test, simülasyon ve rastgele tetikleme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "min_deger",
+        "type": "float",
+        "required": true,
+        "description": "Üretilecek rastgele sayının alt sınırı.",
+        "connection": false
+      },
+      {
+        "name": "max_deger",
+        "type": "float",
+        "required": true,
+        "description": "Üretilecek rastgele sayının üst sınırı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Belirtilen aralıkta üretilen rastgele sayı."
+      }
+    ],
+    "tags": [
+      "rastgele sayı üret",
+      "random sayı"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_round",
+    "name": "Round",
+    "category": "Matematik",
+    "description": "Giriş değerini en yakın tamsayıya yuvarlar. Standart matematiksel yuvarlama kurallarını uygular.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Yuvarlanacak sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "En yakın tamsayıya yuvarlanmış değer."
+      }
+    ],
+    "tags": [
+      "yuvarla",
+      "en yakın tam sayıya yuvarla"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_saat",
+    "name": "Saat",
+    "category": "Matematik",
+    "description": "Mevcut zamanın sadece saat bileşenini numerik olarak döndürür (0-23 arası). Saat bazlı zamanlama ve periyodik kontrol senaryolarında kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Mevcut zamanın saat bileşeni (0-23)."
+      }
+    ],
+    "tags": [
+      "saat değeri",
+      "şu anki saat",
+      "kaçta"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_sabit",
+    "name": "Sabit",
+    "category": "Matematik",
+    "description": "Önceden tanımlanmış numerik sabit bir değer döndürür. İş akışlarında sabit sayısal referans değerler oluşturmak için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Tanımlanacak sabit numerik değer.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Tanımlanan sabit numerik değer."
+      }
+    ],
+    "tags": [
+      "sabit sayı",
+      "numeric sabit",
+      "eşik değeri",
+      "sabit limit"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_sabit_string",
+    "name": "Sabit String",
+    "category": "Matematik",
+    "description": "Önceden tanımlanmış sabit bir string objesini döndürür. İş akışlarında sabit metin referans değerleri oluşturmak için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Tanımlanacak sabit string değer.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Tanımlanan sabit string değer."
+      }
+    ],
+    "tags": [
+      "sabit metin",
+      "önceden tanımlı string"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_saniye",
+    "name": "Saniye",
+    "category": "Matematik",
+    "description": "Mevcut zamanın sadece saniye bileşenini numerik olarak döndürür (0-59 arası). Hassas zamanlama senaryolarında kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Mevcut zamanın saniye bileşeni (0-59)."
+      }
+    ],
+    "tags": [
+      "saniye değeri",
+      "şu anki saniye"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_sayi_binary_string",
+    "name": "Sayı/Binary String",
+    "category": "Matematik",
+    "description": "Bir ondalık sayıyı binary (ikili) formattaki stringe dönüştürür. Ondalık sistemden ikili sisteme çevrim yapar.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "integer",
+        "required": true,
+        "description": "Binary stringe dönüştürülecek ondalık sayı.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Sayının binary string karşılığı (örn: '10110')."
+      }
+    ],
+    "tags": [
+      "sayıyı binary stringe çevir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_sayi_boolean_donusturucu",
+    "name": "Sayı/Boolean Dönüştürücü",
+    "category": "Matematik",
+    "description": "Girişteki numerik değeri boolean (binary) değere dönüştürür. 0=false, sıfır olmayan değerler=true olarak çıktı üretir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Boolean'a dönüştürülecek sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Sayısal değerin boolean karşılığı."
+      }
+    ],
+    "tags": [
+      "sayıyı booleana çevir",
+      "numeric boolean dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_sayi_hexstring",
+    "name": "Sayı/HexString",
+    "category": "Matematik",
+    "description": "Ondalık (decimal) bir değeri hexadecimal (16'lık taban) stringe dönüştürür.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "integer",
+        "required": true,
+        "description": "Hexadecimal stringe dönüştürülecek ondalık sayı.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Sayının hexadecimal string karşılığı."
+      }
+    ],
+    "tags": [
+      "sayıyı hexadecimale çevir",
+      "decimal hex string"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_sayi_string",
+    "name": "Sayı/String",
+    "category": "Matematik",
+    "description": "Sayısal bir veriyi string formatına dönüştürür. Numerik değerleri metin olarak kullanılması gereken senaryolarda kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "String'e dönüştürülecek sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Sayısal değerin string karşılığı."
+      }
+    ],
+    "tags": [
+      "sayıyı stringe çevir",
+      "numeric metin dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_sinus",
+    "name": "Sinüs",
+    "category": "Matematik",
+    "description": "Girişteki numerik değerin sinüs (sin) değerini hesaplar ve çıkışa aktarır. Trigonometrik hesaplamalarda kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Sinüsü hesaplanacak numerik değer (radyan cinsinden).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan sinüs değeri."
+      }
+    ],
+    "tags": [
+      "sinüs hesapla",
+      "sin"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_birlestir",
+    "name": "String Birleştir",
+    "category": "Matematik",
+    "description": "İki string değeri birleştirip tek bir string çıkışı üretir. Metin oluşturma ve birleştirme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "string",
+        "required": true,
+        "description": "Birleştirilecek birinci string.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "string",
+        "required": true,
+        "description": "Birleştirilecek ikinci string.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "İki stringin birleştirilmiş hali."
+      }
+    ],
+    "tags": [
+      "string birleştir",
+      "metin birleştir",
+      "iki metni birleştir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_esitlik",
+    "name": "String Eşitlik",
+    "category": "Matematik",
+    "description": "String türündeki iki nesneyi karşılaştırarak eşitlik kontrolü yapar. İçerik bazlı koşullu dallanma senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "string",
+        "required": true,
+        "description": "Karşılaştırılacak birinci string.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "string",
+        "required": true,
+        "description": "Karşılaştırılacak ikinci string.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "İki string eşitse true, değilse false döner."
+      }
+    ],
+    "tags": [
+      "string eşitlik kontrolü",
+      "metin karşılaştırma"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_includes",
+    "name": "String Includes",
+    "category": "Matematik",
+    "description": "Yazı içinde belirli bir kelimenin geçip geçmediğini büyük/küçük harf ayrımı yapmaksızın arar. Kelime bulunursa çıkış üretir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "İçinde arama yapılacak ana metin.",
+        "connection": true
+      },
+      {
+        "name": "aranan_kelime",
+        "type": "string",
+        "required": true,
+        "description": "Metin içinde aranacak kelime veya ifade.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Aranan kelime metin içinde bulunduysa true döner."
+      }
+    ],
+    "tags": [
+      "string içerir mi",
+      "kelime arama",
+      "metin içinde ara"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_kucuk_buyuk",
+    "name": "String Küçük/Büyük",
+    "category": "Matematik",
+    "description": "Yazıyı tamamen küçük harf veya tamamen büyük harf olarak değiştirir. Metin normalizasyonu senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Harf dönüşümü uygulanacak string.",
+        "connection": true
+      },
+      {
+        "name": "donusum",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "kucuk",
+          "buyuk"
+        ],
+        "description": "Uygulanacak dönüşüm türü.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Harf dönüşümü uygulanmış string."
+      }
+    ],
+    "tags": [
+      "büyük küçük harf dönüşüm",
+      "harf dönüştür"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_length",
+    "name": "String Length",
+    "category": "Matematik",
+    "description": "Yazının karakter uzunluğunu tamsayı cinsinden döndürür. Metin uzunluk kontrolü ve validasyon senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Uzunluğu hesaplanacak string.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Stringin karakter cinsinden uzunluğu."
+      }
+    ],
+    "tags": [
+      "string uzunluğu",
+      "metin uzunluk"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_reflector",
+    "name": "String Reflector",
+    "category": "Matematik",
+    "description": "İçine atanan string değeri bir değişkende saklar ve zincir şeklinde ilerletir. Builder (oluşturucu) bileşenine ulaşana kadar veri taşıma amacıyla kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Saklanacak ve iletilecek string değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Saklanan ve bir sonraki bileşene iletilen string değer."
+      }
+    ],
+    "tags": [
+      "string reflector",
+      "değer zinciri sakla"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_replace",
+    "name": "String Replace",
+    "category": "Matematik",
+    "description": "Yazı içinde geçen belirli bir kelimeyi başka bir kelime ile değiştirir. Metin düzenleme ve dönüşüm senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "İçinde değişiklik yapılacak kaynak metin.",
+        "connection": true
+      },
+      {
+        "name": "aranan",
+        "type": "string",
+        "required": true,
+        "description": "Değiştirilecek kelime veya ifade.",
+        "connection": false
+      },
+      {
+        "name": "yeni_deger",
+        "type": "string",
+        "required": true,
+        "description": "Yerine konulacak yeni kelime veya ifade.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Değişiklik yapılmış metin."
+      }
+    ],
+    "tags": [
+      "string değiştir",
+      "kelime değiştir",
+      "metin değiştirme"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_splitter",
+    "name": "String Splitter",
+    "category": "Matematik",
+    "description": "Yazıyı belirtilen ayırıcı karakterin geçtiği yerlerden böler ve istenilen indeksteki parçayı döndürür. Metin ayrıştırma senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Bölünecek kaynak metin.",
+        "connection": true
+      },
+      {
+        "name": "ayirici",
+        "type": "string",
+        "required": true,
+        "description": "Bölme işlemi için kullanılacak ayırıcı karakter veya kelime.",
+        "connection": false
+      },
+      {
+        "name": "indeks",
+        "type": "integer",
+        "required": true,
+        "description": "Bölme sonucundan çekilecek parçanın indeks numarası.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "string",
+        "description": "Bölme işlemi sonucunda seçilen indeksteki metin parçası."
+      }
+    ],
+    "tags": [
+      "string böl",
+      "metni parçala"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_bool",
+    "name": "String/Bool",
+    "category": "Matematik",
+    "description": "String tipindeki giriş verisini boolean tipine dönüştürür. 'true' stringi true, 'false' stringi false olarak çevrilir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Boolean'a dönüştürülecek string değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "String değerin boolean karşılığı."
+      }
+    ],
+    "tags": [
+      "stringi booleana çevir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_sayi",
+    "name": "String/Sayı",
+    "category": "Matematik",
+    "description": "String tipindeki bir değeri sayısal (numerik) değere dönüştürür. Metin formatındaki sayısal verileri işlenebilir hale getirmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "Sayıya dönüştürülecek string değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "String değerin sayısal karşılığı."
+      }
+    ],
+    "tags": [
+      "stringi sayıya çevir",
+      "metin sayı dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_string_tarih",
+    "name": "String/Tarih",
+    "category": "Matematik",
+    "description": "Belirtilen formatta gelen yazı tipindeki objeyi Tarih/Zaman objesine dönüştürür. Metin formatındaki tarih verilerini zaman objelerine çevirmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "datetime_string",
+        "required": true,
+        "description": "Tarih/Zaman objesine dönüştürülecek formatlı tarih metni.",
+        "connection": true
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": true,
+        "description": "Gelen metnin tarih formatı (örn: 'dd/MM/yyyy HH:mm').",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "datetime_object",
+        "description": "Metinden oluşturulan Tarih/Zaman objesi."
+      }
+    ],
+    "tags": [
+      "stringi tarihe çevir",
+      "metin tarih dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_sicaklik_birim_cevirici",
+    "name": "Sıcaklık Birim Çevirici",
+    "category": "Matematik",
+    "description": "Girişteki sıcaklık değerini belirtilen hedef sıcaklık birimine çevirir. Celsius, Fahrenheit ve Kelvin birimleri arasında dönüşüm yapar.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Çevrilecek olan ham sıcaklık değeri.",
+        "connection": true
+      },
+      {
+        "name": "kaynak_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "celsius",
+          "fahrenheit",
+          "kelvin"
+        ],
+        "description": "Giriş değerinin mevcut sıcaklık birimi.",
+        "connection": false
+      },
+      {
+        "name": "hedef_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "celsius",
+          "fahrenheit",
+          "kelvin"
+        ],
+        "description": "Dönüştürülmek istenen hedef sıcaklık birimi.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanmış yeni sıcaklık değeri."
+      }
+    ],
+    "tags": [
+      "sıcaklık birimi çevir",
+      "celsius fahrenheit dönüşüm",
+      "ısı birimi dönüştür",
+      "derece birimi değiştir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_tanjant",
+    "name": "Tanjant",
+    "category": "Matematik",
+    "description": "Girişteki numerik değerin tanjant (tan) değerini hesaplar ve çıkışa aktarır. Trigonometrik hesaplamalarda kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Tanjantı hesaplanacak numerik değer (radyan cinsinden).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hesaplanan tanjant değeri."
+      }
+    ],
+    "tags": [
+      "tanjant hesapla",
+      "tan"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_tarih_epoch",
+    "name": "Tarih/EPOCH",
+    "category": "Matematik",
+    "description": "Girdi olarak gelen Tarih/Zaman objesini UNIX zaman damgasına (epoch sayısal değer) dönüştürür. Tarih verilerini epoch formatında saklamak veya iletmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "datetime_object",
+        "required": true,
+        "description": "UNIX zaman damgasına dönüştürülecek Tarih/Zaman objesi.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "epoch_integer",
+        "description": "Tarih/Zaman objesinin UNIX zaman damgası (sayısal epoch) karşılığı."
+      }
+    ],
+    "tags": [
+      "tarihi epoch çevir",
+      "tarih unix damgası"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_tarih_zaman_format",
+    "name": "Tarih/Zaman",
+    "category": "Matematik",
+    "description": "Girdi olarak gelen Tarih/Zaman objesini belirtilen formattaki yazıya dönüştürür. Tarih verilerini okunabilir metin formatına çevirmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "datetime_object",
+        "required": true,
+        "description": "Formata dönüştürülecek Tarih/Zaman objesi.",
+        "connection": true
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": true,
+        "description": "Çıktı tarih formatı (örn: 'dd/MM/yyyy HH:mm:ss').",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "datetime_string",
+        "description": "Belirtilen formatta oluşturulmuş tarih/zaman metni."
+      }
+    ],
+    "tags": [
+      "tarih formatla",
+      "tarihi yazıya çevir"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_tarih_zaman_simdiki",
+    "name": "Tarih Zaman",
+    "category": "Matematik",
+    "description": "Şu anki zamanı Tarih/Zaman objesi olarak döndürür. Mevcut zaman bilgisine ihtiyaç duyan otomasyon kurallarında kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "datetime_object",
+        "description": "Şimdiki zamanın Tarih/Zaman objesi."
+      }
+    ],
+    "tags": [
+      "şu anki zaman",
+      "şimdiki tarih",
+      "anlık tarih objesi"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_toplam",
+    "name": "Toplam",
+    "category": "Matematik",
+    "description": "İki sayısal değeri toplar ve sonucu döndürür. Temel aritmetik toplama işlemi gerçekleştirir.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Toplanacak birinci sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Toplanacak ikinci sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Toplama işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "toplama işlemi",
+      "iki sayı topla",
+      "sayıları topla"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_uzunluk_birim_cevirici",
+    "name": "Uzunluk Birim Çevirici",
+    "category": "Matematik",
+    "description": "Girişteki uzunluk değerini kaynak birimden hedef uzunluk birimine dönüştürür. Metre, kilometre, mil, feet gibi birimler arasında çevrim yapar.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Çevrilecek uzunluk değeri.",
+        "connection": true
+      },
+      {
+        "name": "kaynak_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "metre",
+          "kilometre",
+          "santimetre",
+          "milimetre",
+          "mil",
+          "feet",
+          "inch",
+          "yard"
+        ],
+        "description": "Giriş değerinin mevcut uzunluk birimi.",
+        "connection": false
+      },
+      {
+        "name": "hedef_birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "metre",
+          "kilometre",
+          "santimetre",
+          "milimetre",
+          "mil",
+          "feet",
+          "inch",
+          "yard"
+        ],
+        "description": "Dönüştürülmek istenen hedef uzunluk birimi.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Hedef birime dönüştürülmüş uzunluk değeri."
+      }
+    ],
+    "tags": [
+      "uzunluk birimi çevir",
+      "metre kilometre dönüşüm"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_yuzde",
+    "name": "Yüzde",
+    "category": "Matematik",
+    "description": "Girişteki değerin yüzdesini hesaplar. Bir sayının belirtilen yüzdelik dilimini bulmak için kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "float",
+        "required": true,
+        "description": "Yüzdesi hesaplanacak sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "yuzde_orani",
+        "type": "float",
+        "required": true,
+        "description": "Uygulanacak yüzde oranı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Yüzde hesaplamasının sonucu."
+      }
+    ],
+    "tags": [
+      "yüzde hesapla",
+      "oran hesabı"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_yil",
+    "name": "Yıl",
+    "category": "Matematik",
+    "description": "Mevcut tarihin yıl bilgisini numerik olarak döndürür. Yıl bazlı otomasyon ve raporlama senaryolarında kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "integer",
+        "description": "Mevcut yılın numerik değeri."
+      }
+    ],
+    "tags": [
+      "yıl değeri",
+      "hangi yıl",
+      "şu anki yıl"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_zaman_ayarla",
+    "name": "Zaman Ayarla",
+    "category": "Matematik",
+    "description": "Girdi olarak gelen Tarih/Zaman objesinin belirli bir özelliğine (saat, dakika, saniye vb.) istenilen değeri set eder. Örneğin tarihin saniyesini 12 olarak ayarlayabilirsiniz.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "datetime_object",
+        "required": true,
+        "description": "Üzerinde ayarlama yapılacak Tarih/Zaman objesi.",
+        "connection": true
+      },
+      {
+        "name": "ozellik",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "yil",
+          "ay",
+          "gun",
+          "saat",
+          "dakika",
+          "saniye"
+        ],
+        "description": "Ayarlanacak zaman özelliği.",
+        "connection": false
+      },
+      {
+        "name": "deger",
+        "type": "integer",
+        "required": true,
+        "description": "Seçilen özelliğe atanacak yeni değer.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "datetime_object",
+        "description": "Ayarlama yapılmış Tarih/Zaman objesi."
+      }
+    ],
+    "tags": [
+      "zaman ayarla",
+      "tarih özelliği set et"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_zaman_damgasi",
+    "name": "Zaman Damgası",
+    "category": "Matematik",
+    "description": "1 Ocak 1970'ten (UNIX epoch) bu yana geçen saniye sayısını sayısal olarak döndürür. UNIX zaman damgası formatında mevcut zamanı almak için kullanılır.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "epoch_integer",
+        "description": "1 Ocak 1970'ten itibaren geçen saniye sayısı (sayısal UNIX zaman damgası)."
+      }
+    ],
+    "tags": [
+      "zaman damgası",
+      "unix epoch saniye"
+    ],
+    "role": [
+      "start"
+    ]
+  },
+  {
+    "id": "math_zaman_ekle_cikar",
+    "name": "Zaman Ekle/Çıkar",
+    "category": "Matematik",
+    "description": "Girdi olarak gelen Tarih/Zaman objesine belirtilen türden bir süre ekler veya çıkarır. Pozitif değerler ekleme, negatif değerler çıkarma yapar. Örneğin tarihe 4 gün ekleyebilir veya çıkarabilirsiniz.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "datetime_object",
+        "required": true,
+        "description": "Üzerinde işlem yapılacak Tarih/Zaman objesi.",
+        "connection": true
+      },
+      {
+        "name": "miktar",
+        "type": "integer",
+        "required": true,
+        "description": "Eklenecek veya çıkarılacak miktar. Pozitif=ekleme, negatif=çıkarma.",
+        "connection": false
+      },
+      {
+        "name": "birim",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "saniye",
+          "dakika",
+          "saat",
+          "gun",
+          "ay",
+          "yil"
+        ],
+        "description": "Ekleme/çıkarma işleminin zaman birimi.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "datetime_object",
+        "description": "Süre eklenmiş veya çıkarılmış Tarih/Zaman objesi."
+      }
+    ],
+    "tags": [
+      "tarihe zaman ekle",
+      "tarihten çıkar",
+      "gün ekle çıkar"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_carpma",
+    "name": "Çarpma",
+    "category": "Matematik",
+    "description": "İki sayısal değeri birbiriyle çarpar ve sonucu döndürür. Temel aritmetik çarpma işlemi gerçekleştirir.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Çarpılacak birinci sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Çarpılacak ikinci sayısal değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Çarpma işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "çarpma işlemi",
+      "iki sayı çarp"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_cikarma",
+    "name": "Çıkarma",
+    "category": "Matematik",
+    "description": "İki sayısal değeri birbirinden çıkarır ve farkı döndürür. Temel aritmetik çıkarma işlemi gerçekleştirir.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Çıkarılacak olan birinci sayısal değer (minuend).",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Çıkarılan ikinci sayısal değer (subtrahend).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Çıkarma işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "çıkarma işlemi",
+      "fark hesapla"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_ust",
+    "name": "Üst",
+    "category": "Matematik",
+    "description": "Sayısal bir değerin belirtilen kuvvetini (üssünü) alır. Üstel hesaplama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input_1",
+        "type": "float",
+        "required": true,
+        "description": "Kuvveti alınacak taban sayısal değer.",
+        "connection": true
+      },
+      {
+        "name": "input_2",
+        "type": "float",
+        "required": true,
+        "description": "Üs (kuvvet) değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Üst alma işleminin sonucu."
+      }
+    ],
+    "tags": [
+      "üstel hesap",
+      "kuvvet hesapla"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_insan_sayac_dedektor_tipi",
+    "name": "İnsan/Sayaç Dedektörü Tipi",
+    "category": "Matematik",
+    "description": "İnsan sayısı verisinin tip doğrulamasını yapar. Gelen people_count verisinin geçerli bir tipe ait olup olmadığını kontrol eder ve boolean çıkış üretir.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "people_count",
+        "required": true,
+        "description": "Tip doğrulaması yapılacak insan sayaç verisi.",
+        "connection": true
+      },
+      {
+        "name": "beklenen_tip",
+        "type": "string",
+        "required": true,
+        "description": "Doğrulama yapılacak beklenen tip adı.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Veri tipi beklenen tiple eşleşiyorsa true döner."
+      }
+    ],
+    "tags": [
+      "insan dedektör tip kontrolü",
+      "sayaç tipi doğrula"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "math_insan_sayac_dedektor_olcum",
+    "name": "İnsan/Sayaç Dedektör Ölçüm",
+    "category": "Matematik",
+    "description": "Girişten gelen insan sayacının spesifik bir özelliğini (giriş, çıkış, toplam vb.) seçip sayısal çıktı olarak verir. Geçersiz veriler -1 olarak döner.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "people_count",
+        "required": true,
+        "description": "Ölçüm alınacak insan sayaç verisi.",
+        "connection": true
+      },
+      {
+        "name": "ozellik",
+        "type": "string",
+        "required": true,
+        "description": "Seçilecek spesifik ölçüm özelliği (giriş, çıkış, toplam vb.).",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "float",
+        "description": "Seçilen özelliğin sayısal değeri. Geçersiz verilerde -1 döner."
+      }
+    ],
+    "tags": [
+      "insan dedektör ölçümü",
+      "sayaç spesifik özellik"
+    ],
+    "role": [
+      "middle"
+    ]
+  },
+  {
+    "id": "aksiyon_bildirim_gonder",
+    "name": "Bildirim Gönder",
+    "category": "Aksiyon",
+    "description": "Belirtilen kullanıcılara portal üzerinden bildirim gönderir. Alarm, uyarı ve bilgilendirme senaryolarında kullanıcıları haberdar etmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "kullanici_listesi",
+        "type": "string_array",
+        "required": true,
+        "description": "Bildirim gönderilecek kullanıcı adlarının veya kimliklerinin dizisi.",
+        "connection": false
+      },
+      {
+        "name": "mesaj",
+        "type": "string",
+        "required": true,
+        "description": "Gönderilecek bildirim mesajı içeriği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Bildirim başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "bildirim gönder",
+      "kullanıcıya bildir",
+      "push bildirim",
+      "anlık uyarı gönder",
+      "ekibe bildir",
+      "yöneticiye bildir",
+      "haber ver"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_ble_sabit_sos",
+    "name": "Ble Sabit SoS",
+    "category": "Aksiyon",
+    "description": "Bir BLE taginin belirtilen süre boyunca hareketsiz kalması durumunda alarm üretir. Kural periyodik görevlerle belirli aralıklarla çalıştırılmak zorundadır. Düşme algılama ve acil durum senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "sure_saniye",
+        "type": "integer",
+        "required": true,
+        "description": "Hareketsizlik eşik süresi (saniye cinsinden).",
+        "connection": false
+      },
+      {
+        "name": "tag_id",
+        "type": "device_uuid",
+        "required": false,
+        "description": "İzlenecek BLE taginin benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Tag belirtilen süre boyunca hareketsiz kaldıysa true döner."
+      }
+    ],
+    "tags": [
+      "ble sos alarmı",
+      "ble tag hareketsizlik",
+      "hareketsiz alarm üret"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_bluebot_calistir",
+    "name": "BlueBot Çalıştır",
+    "category": "Aksiyon",
+    "description": "Bu kural içerisinden başka bir BlueBot kuralını tetikler. Zincirleme kural çalıştırma ve alt iş akışları tetikleme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "kural_id",
+        "type": "string",
+        "required": true,
+        "description": "Tetiklenecek BlueBot kuralının benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Hedef kural başarıyla tetiklendiyse true döner."
+      }
+    ],
+    "tags": [
+      "bluebot kuralı çalıştır",
+      "başka kural tetikle",
+      "kural başlat",
+      "bluebot çalıştır"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_cihaz_ariza_seti",
+    "name": "Cihaz Arıza Seti",
+    "category": "Aksiyon",
+    "description": "Bir cihazı sanal olarak genel arıza durumuna sokar veya arıza durumundan çıkarır. Cihaz durumu yönetimi ve bakım senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "cihaz_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Arıza durumu ayarlanacak cihazın benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "ariza_durumu",
+        "type": "boolean",
+        "required": true,
+        "description": "Arıza durumu (true=arızalı, false=normal).",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Arıza durumu başarıyla ayarlandıysa true döner."
+      }
+    ],
+    "tags": [
+      "cihaz arıza durumuna sok",
+      "sanal arıza oluştur"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_discord_mesaji",
+    "name": "Discord Mesajı",
+    "category": "Aksiyon",
+    "description": "Belirtilen bir Discord kanalına mesaj gönderir. Webhook entegrasyonu ile Discord üzerinden bildirim ve raporlama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "kanal",
+        "type": "string",
+        "required": true,
+        "description": "Mesaj gönderilecek Discord kanalının adı veya webhook URL'si.",
+        "connection": false
+      },
+      {
+        "name": "mesaj",
+        "type": "string",
+        "required": true,
+        "description": "Gönderilecek mesaj içeriği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Mesaj başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "discord mesajı gönder",
+      "discord kanalına yaz"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_draco_analog_set",
+    "name": "Draco Analog Set",
+    "category": "Aksiyon",
+    "description": "Bir Draco giriş noktasına program içerisindeki bir analog değeri ayarlar. Draco cihazlarının analog çıkışlarını kontrol etmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "nokta_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Değeri ayarlanacak Draco giriş noktasının benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "deger",
+        "type": "float",
+        "required": true,
+        "description": "Ayarlanacak analog değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Değer başarıyla ayarlandıysa true döner."
+      }
+    ],
+    "tags": [
+      "draco analog değer ayarla",
+      "analog çıkış set"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_draco_sayac_seti",
+    "name": "Draco Sayaç Seti",
+    "category": "Aksiyon",
+    "description": "Draco girişinin sayacını belirtilen değere set eder. Sayaç sıfırlama veya belirli bir değere ayarlama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "nokta_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Sayacı ayarlanacak Draco giriş noktasının benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "sayac_degeri",
+        "type": "integer",
+        "required": true,
+        "description": "Sayaca atanacak yeni değer.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Sayaç başarıyla ayarlandıysa true döner."
+      }
+    ],
+    "tags": [
+      "draco sayaç set",
+      "sayacı sıfırla",
+      "sayaç değeri ayarla"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_draco_cikis",
+    "name": "Draco Çıkış",
+    "category": "Aksiyon",
+    "description": "Portaldaki bir Draco noktasının değerini değiştirir. Draco cihazlarının çıkış noktalarını programatik olarak kontrol etmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "nokta_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Değeri değiştirilecek Draco noktasının benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "yeni_deger",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "Sayı/String",
+          "Boolean/Sayı Dönüştürücü"
+        ],
+        "required": true,
+        "description": "Noktaya atanacak yeni değer. Tip belirsiz olduğundan, giriş verisinin tipi ile noktanın beklediği tipin uyumlu olduğundan emin olunmalıdır.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Değer başarıyla değiştirildiyse true döner."
+      }
+    ],
+    "tags": [
+      "draco çıkış ayarla",
+      "portal nokta değeri değiştir"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_gecerli_bolge_kameralari",
+    "name": "Geçerli Bölge Kameraları",
+    "category": "Aksiyon",
+    "description": "Tetikleyici bir bölge ile eşleşiyorsa ve ilgili bölgede kamera layoutları varsa ekrana getirir. Bölge bazlı kamera görüntüleme senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "bolge_id",
+        "type": "building_id",
+        "required": false,
+        "description": "Kamera layoutları görüntülenecek bölgenin kimliği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Kamera layoutları başarıyla ekrana getirildiyse true döner."
+      }
+    ],
+    "tags": [
+      "bölge kamera görüntüsü getir",
+      "kamera layout göster"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_ham_soket",
+    "name": "Ham Soket",
+    "category": "Aksiyon",
+    "description": "Soket üzerinden TCP veya UDP protokolü ile UTF-8 formatında mesaj gönderir. Düşük seviye ağ iletişimi ve cihaz entegrasyonu senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "hedef_adres",
+        "type": "string",
+        "required": true,
+        "description": "Mesaj gönderilecek hedef IP adresi veya hostname.",
+        "connection": false
+      },
+      {
+        "name": "port",
+        "type": "integer",
+        "required": true,
+        "description": "Hedef port numarası.",
+        "connection": false
+      },
+      {
+        "name": "protokol",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "TCP",
+          "UDP"
+        ],
+        "description": "Kullanılacak iletişim protokolü.",
+        "connection": false
+      },
+      {
+        "name": "mesaj",
+        "type": "string",
+        "required": true,
+        "description": "Gönderilecek UTF-8 mesaj içeriği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Mesaj başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "tcp udp mesaj gönder",
+      "ham soket iletişim"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_kamera_gorunum_ayarla",
+    "name": "Kamera Görünüm Ayarla",
+    "category": "Aksiyon",
+    "description": "Belirtilen bir kameranın görünümünü ekrana getirir. Kamera izleme ve görüntüleme senaryolarında belirli bir kamera görünümünü aktif etmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "kamera_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Görünümü ayarlanacak kameranın benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Kamera görünümü başarıyla ekrana getirildiyse true döner."
+      }
+    ],
+    "tags": [
+      "kamera görünümü aç",
+      "ekrana kamera getir"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_kamera_olayi_uret",
+    "name": "Kamera Olayı Üret",
+    "category": "Aksiyon",
+    "description": "Destekleyen kameralar için belirtilen isimde bir olay üretir. Kamera bazlı olay tetikleme ve video analitik entegrasyonu senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "kamera_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Olay üretilecek kameranın benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "olay_adi",
+        "type": "string",
+        "required": true,
+        "description": "Üretilecek olayın adı.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Olay başarıyla üretildiyse true döner."
+      }
+    ],
+    "tags": [
+      "kamera olayı üret",
+      "kamera event oluştur"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_mqtt_gonder",
+    "name": "MQTT Gönder",
+    "category": "Aksiyon",
+    "description": "Uzak bir MQTT broker'a belirtilen topic üzerinden mesaj gönderir. IoT cihaz entegrasyonu ve mesajlaşma senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "broker_adresi",
+        "type": "string",
+        "required": true,
+        "description": "MQTT broker'ın adresi.",
+        "connection": false
+      },
+      {
+        "name": "topic",
+        "type": "string",
+        "required": true,
+        "description": "Mesajın gönderileceği MQTT topic.",
+        "connection": false
+      },
+      {
+        "name": "mesaj",
+        "type": "string",
+        "required": true,
+        "description": "Gönderilecek mesaj içeriği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Mesaj başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "mqtt mesaj gönder",
+      "mqtt broker iletişim",
+      "iot mesaj"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_mail_gonder",
+    "name": "Mail Gönder",
+    "category": "Aksiyon",
+    "description": "Kendi SMTP sunucunuz üzerinden e-posta gönderir. Alarm, rapor ve bildirim e-postalarını otomatik olarak göndermek için kullanılır.",
+    "inputs": [
+      {
+        "name": "alici",
+        "type": "string_array",
+        "required": true,
+        "description": "E-postanın gönderileceği alıcı adreslerinin dizisi.",
+        "connection": false
+      },
+      {
+        "name": "konu",
+        "type": "string",
+        "required": true,
+        "description": "E-posta konusu.",
+        "connection": false
+      },
+      {
+        "name": "icerik",
+        "type": "string",
+        "required": true,
+        "description": "E-posta gövde içeriği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "E-posta başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "mail gönder",
+      "e-posta gönder",
+      "smtp ile mail",
+      "eposta at",
+      "mail at",
+      "e-posta at"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_metin_referansi_guncelle",
+    "name": "Metin Referansı Güncelle",
+    "category": "Aksiyon",
+    "description": "Portaldaki bir cihazın metin referansını günceller. Cihazlara atanmış metin bazlı referans verilerini programatik olarak değiştirmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "cihaz_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Metin referansı güncellenecek cihazın benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "yeni_metin",
+        "type": "string",
+        "required": true,
+        "description": "Atanacak yeni metin referans değeri.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Metin referansı başarıyla güncellendiyse true döner."
+      }
+    ],
+    "tags": [
+      "metin referansını güncelle",
+      "cihaz metin değeri güncelle"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_novif_recorder",
+    "name": "NoVif Recorder",
+    "category": "Aksiyon",
+    "description": "ONVIF adaptörü tarafından sürülen kameralardan görüntü kayıtlarını alır ve e-posta olarak gönderir. Olay bazlı video kayıt ve raporlama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "kamera_id",
+        "type": "device_uuid",
+        "required": true,
+        "description": "Kayıt alınacak kameranın benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "alici_email",
+        "type": "string",
+        "required": true,
+        "description": "Kayıt gönderilecek e-posta adresi.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Kayıt başarıyla e-posta ile gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "novif kamera kaydı email gönder",
+      "görüntü kaydı e-posta"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_portal_degisken_set",
+    "name": "Portal Değişken Set",
+    "category": "Aksiyon",
+    "description": "Portalda tanımlı bir sanal değişkenin değerini günceller. Portal genelinde paylaşılan global değişkenlerin değerlerini programatik olarak değiştirmek için kullanılır.",
+    "inputs": [
+      {
+        "name": "degisken_adi",
+        "type": "string",
+        "required": true,
+        "description": "Değeri güncellenecek portal sanal değişkeninin adı.",
+        "connection": false
+      },
+      {
+        "name": "yeni_deger",
+        "type": "any",
+        "type_safety": "warning",
+        "cast_suggestion": [
+          "Sayı/String",
+          "Bool/String",
+          "String/Sayı"
+        ],
+        "required": true,
+        "description": "Değişkene atanacak yeni değer. Tip belirsiz olduğundan, değişkenin beklediği tiple uyumlu bir Tip Dönüştürücü kullanılması önerilir.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Değişken değeri başarıyla güncellendiyse true döner."
+      }
+    ],
+    "tags": [
+      "portal değişkeni güncelle",
+      "sanal değişken set et"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_rest_api_soket",
+    "name": "Rest Api Soket",
+    "category": "Aksiyon",
+    "description": "HTTP protokolü ile uzak bir sistem ile iletişim kurar. REST API çağrıları yaparak dış sistem entegrasyonu ve veri alışverişi senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "url",
+        "type": "string",
+        "required": true,
+        "description": "İletişim kurulacak uzak sistemin API endpoint URL'si.",
+        "connection": false
+      },
+      {
+        "name": "metot",
+        "type": "string",
+        "required": true,
+        "enum": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "PATCH"
+        ],
+        "description": "Kullanılacak HTTP metodu.",
+        "connection": false
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "required": false,
+        "description": "HTTP isteğinin gövde içeriği.",
+        "connection": false
+      },
+      {
+        "name": "headers",
+        "type": "string",
+        "required": false,
+        "description": "HTTP isteğinin özel başlıkları (JSON formatında).",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "http_response",
+        "description": "Uzak sistemden alınan HTTP yanıt objesi."
+      }
+    ],
+    "tags": [
+      "http isteği gönder",
+      "rest api çağrısı",
+      "dış sisteme istek"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_slack_mesaji",
+    "name": "Slack Mesajı",
+    "category": "Aksiyon",
+    "description": "Belirtilen bir Slack kanalına mesaj gönderir. Webhook entegrasyonu ile Slack üzerinden bildirim ve raporlama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "kanal",
+        "type": "string",
+        "required": true,
+        "description": "Mesaj gönderilecek Slack kanalının adı veya webhook URL'si.",
+        "connection": false
+      },
+      {
+        "name": "mesaj",
+        "type": "string",
+        "required": true,
+        "description": "Gönderilecek mesaj içeriği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Mesaj başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "slack mesajı gönder",
+      "slack kanalına yaz",
+      "slack bildir"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_telegram_mesaji",
+    "name": "Telegram Mesajı",
+    "category": "Aksiyon",
+    "description": "Belirtilen bir Telegram grubuna mesaj gönderir. Bot API entegrasyonu ile Telegram üzerinden bildirim ve raporlama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "grup_id",
+        "type": "string",
+        "required": true,
+        "description": "Mesaj gönderilecek Telegram grubunun ID'si veya adı.",
+        "connection": false
+      },
+      {
+        "name": "mesaj",
+        "type": "string",
+        "required": true,
+        "description": "Gönderilecek mesaj içeriği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Mesaj başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "telegram mesajı gönder",
+      "telegram grubuna yaz"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_temizlik_anketi_sifirla",
+    "name": "Temizlik Anketi Sıfırla",
+    "category": "Aksiyon",
+    "description": "Temizlik anketinin sonuçlarını otomatik olarak sıfırlar. Periyodik temizlik kontrol döngülerinde anket verilerini resetlemek için kullanılır.",
+    "inputs": [
+      {
+        "name": "anket_id",
+        "type": "string",
+        "required": false,
+        "description": "Sıfırlanacak anketin benzersiz kimliği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "Anket sonuçları başarıyla sıfırlandıysa true döner."
+      }
+    ],
+    "tags": [
+      "temizlik anketini sıfırla",
+      "anket sonuçlarını temizle"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_wake_on_lan",
+    "name": "Wake on The Lan",
+    "category": "Aksiyon",
+    "description": "Bir vekil cihaz aracılığıyla uzak bir bilgisayarı uyandırmak (açmak) için Wake-on-LAN (WoL) magic paketi gönderir. Uzaktan bilgisayar yönetimi senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "mac_adresi",
+        "type": "string",
+        "required": true,
+        "description": "Uyandırılacak uzak bilgisayarın MAC adresi.",
+        "connection": false
+      },
+      {
+        "name": "vekil_cihaz_id",
+        "type": "device_uuid",
+        "required": false,
+        "description": "WoL paketini gönderecek vekil cihazın kimliği.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "WoL paketi başarıyla gönderildiyse true döner."
+      }
+    ],
+    "tags": [
+      "bilgisayarı uyandır",
+      "wake on lan gönder",
+      "uzak pc aç"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_is_emri_olustur",
+    "name": "İş Emri Oluştur",
+    "category": "Aksiyon",
+    "description": "Bir kurala bağlı olarak portal üzerinde yeni bir iş emri oluşturur. Otomatik bakım, arıza ve görev atama senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "baslik",
+        "type": "string",
+        "required": true,
+        "description": "Oluşturulacak iş emrinin başlığı.",
+        "connection": false
+      },
+      {
+        "name": "aciklama",
+        "type": "string",
+        "required": false,
+        "description": "İş emrinin detaylı açıklaması.",
+        "connection": false
+      },
+      {
+        "name": "oncelik",
+        "type": "string",
+        "required": false,
+        "enum": [
+          "dusuk",
+          "normal",
+          "yuksek",
+          "acil"
+        ],
+        "description": "İş emrinin öncelik seviyesi.",
+        "connection": false
+      },
+      {
+        "name": "tetikleyici",
+        "type": "boolean",
+        "required": true,
+        "connection": true,
+        "description": "Bu eylemin çalışması için gereken tetikleyici koşul sinyali."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "workorder_enum",
+        "description": "Oluşturulan yeni iş emri objesi."
+      }
+    ],
+    "tags": [
+      "yeni iş emri aç",
+      "iş emri oluştur",
+      "bakım emri aç",
+      "servis talebi oluştur",
+      "acil iş emri oluştur",
+      "onarım emri aç",
+      "bakım talebi oluştur",
+      "müdahale emri oluştur"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_is_emri_sureci",
+    "name": "İş Emri Süreci",
+    "category": "Aksiyon",
+    "description": "Mevcut bir iş emrinin sürecini (durumunu) değiştirir. İş emri yaşam döngüsü yönetimi senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "workorder_enum",
+        "required": true,
+        "description": "Süreci değiştirilecek iş emri objesi.",
+        "connection": true
+      },
+      {
+        "name": "yeni_durum",
+        "type": "string",
+        "required": true,
+        "description": "İş emrine atanacak yeni süreç/durum değeri.",
+        "connection": false
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "İş emri süreci başarıyla değiştirildiyse true döner."
+      }
+    ],
+    "tags": [
+      "iş emri sürecini değiştir",
+      "iş emri durumu güncelle"
+    ],
+    "role": [
+      "end"
+    ]
+  },
+  {
+    "id": "aksiyon_is_emrini_kapat",
+    "name": "İş Emrini Kapat",
+    "category": "Aksiyon",
+    "description": "İş emri tipindeki bir nesneyi kapatır. İş emri tamamlama ve sonlandırma senaryolarında kullanılır.",
+    "inputs": [
+      {
+        "name": "input",
+        "type": "workorder_enum",
+        "required": true,
+        "description": "Kapatılacak iş emri objesi.",
+        "connection": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "output",
+        "type": "boolean",
+        "description": "İş emri başarıyla kapatıldıysa true döner."
+      }
+    ],
+    "tags": [
+      "iş emrini kapat",
+      "emri tamamla ve kapat",
+      "iş emrini bitir",
+      "görevi kapat",
+      "tamamlanan iş emri kapat"
+    ],
+    "role": [
+      "end"
+    ]
+  }
+]

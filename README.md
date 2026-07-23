@@ -1,10 +1,9 @@
 NP# Blue Operation AI Model / BlueBot Projesi
 
-Bu repository, Blue Operation ekosistemine ait bir operasyonel yönetim, raporlama ve AI destekli iş akışı editörü prototipini kapsar. Proje üç ana katmandan oluşur:
+Bu repository, Blue Operation ekosistemine ait bir operasyonel yönetim, raporlama ve AI destekli iş akışı editörü prototipini kapsar. Proje iki ana katmandan oluşur:
 
-- Bir Express + MongoDB tabanlı backend API
+- Bir Express + MongoDB tabanlı backend API (Smart Filtering ve BlueBot Copilot Motoru dahil)
 - React + Vite tabanlı bir frontend arayüzü
-- FastAPI tabanlı bir NLP/intent service ile AI destekli iş akışı yorumlama mekanizması
 
 Amaç, müşteri taleplerini, performans verilerini, deneyim raporlarını ve BlueBot benzeri iş akışı kurallarını tek bir platform üzerinden yönetmektir.
 
@@ -19,20 +18,20 @@ Bu proje, özellikle aşağıdaki alanlarda kullanılabilecek bir mimari sunar:
 - Performans ve operasyonel raporların saklanması
 - Müşteri deneyim verilerinin işlenmesi
 - BlueBot benzeri akış grafiklerinin görsel olarak oluşturulması
-- Doğal dil komutlarıyla düğüm ekleme gibi AI destekli işlemler
+- Doğal dil komutlarıyla adım adım otomatik iş akışı oluşturma
 
-Bu yapı, bir “operasyonel kontrol merkezi” ve “AI copilot tabanlı workflow editörü” konseptinin erken aşama bir uygulamasıdır.
+Bu yapı, bir “operasyonel kontrol merkezi” ve “AI copilot tabanlı workflow editörü” uygulamasıdır.
 
 ---
 
 ## 2. Temel Özellikler
 
-### 2.1 Backend API
+### 2.1 Backend API & Yüksek Performanslı AI Motoru
 
 - Express.js kullanılarak hazırlanmış REST API
-- MongoDB üzerinde veritabanı işlemleri
-- Mongoose ile şema tabanlı veri modeli yönetimi
-- CRUD tabanlı endpoint yapısı
+- MongoDB üzerinde veritabanı işlemleri (Mongoose)
+- Yüksek hızlı yerel Akıllı Filtreleme ve Türkçe kök çıkarıcı (`smartFilterRoutes.js`, `keyword_index.js`)
+- RAG tabanlı BlueBot Copilot ve Otomatik Graf Üretici (`ragRoutes.js`, `graphBuilder.js`)
 - CORS desteği ile frontend’den erişime uygun yapı
 
 ### 2.2 Frontend Arayüzü
@@ -41,15 +40,7 @@ Bu yapı, bir “operasyonel kontrol merkezi” ve “AI copilot tabanlı workfl
 - Vite ile hızlı geliştirme ve build süreci
 - Dashboard, raporlar, talepler, performans görünümü, BlueBot ekranı ve workflow editörü gibi ekranlar
 - İş akışı editöründe sürükle-bırak tabanlı düğüm düzenleme
-- AI Copilot paneli üzerinden doğal dil komutlarıyla düğüm ekleme
-
-### 2.3 Intent Service
-
-- FastAPI ile çalışan bir servis
-- Türkçe metinlerden intent (amaç) ve entity (varlık) çıkarımı yapar
-- TF-IDF + Logistic Regression tabanlı bir sınıflandırıcı kullanır
-- Kullanıcı cümlesini analiz edip, building/status/category/action gibi parametreler çıkarır
-- Sonuç, frontend tarafındaki workflow editörüne yönlendirilir
+- AI Copilot paneli üzerinden doğal dil komutlarıyla düğüm ekleme ve canlı canvas takibi
 
 ---
 

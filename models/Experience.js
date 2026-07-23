@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
 
 const experienceSchema = new mongoose.Schema({
-  customer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer',
-    required: true
-  },
   ratingScore: {
     type: Number,
     required: true,

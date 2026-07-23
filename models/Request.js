@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const requestSchema = new mongoose.Schema({
-  customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: false },
   subject: { type: String, required: true },       // Talep Adı
   category: { type: String, required: true },      // Kategori
   building: { type: String, required: true },      // Bina

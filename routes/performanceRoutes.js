@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const performances = await Performance.find().populate('customer', 'companyName');
+    const performances = await Performance.find();
     res.status(200).json(performances);
   } catch (error) {
     res.status(500).json({ message: 'Sunucu hatası', error: error.message });

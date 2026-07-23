@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 // Tüm talepleri getir
 router.get('/', async (req, res) => {
   try {
-    const requests = await Request.find().populate('customer', 'companyName contactEmail');
+    const requests = await Request.find();
     res.status(200).json(requests);
   } catch (error) {
     res.status(500).json({ message: 'Sunucu hatası', error: error.message });

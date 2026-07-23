@@ -4,7 +4,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 // Route dosyalarımızı içeri aktarıyoruz
-import customerRoutes from './routes/customerRoutes.js';
 import requestRoutes from './routes/requestRoutes.js';
 import performanceRoutes from './routes/performanceRoutes.js';
 import experienceRoutes from './routes/experienceRoutes.js';
@@ -24,7 +23,6 @@ app.use(cors());
 app.use(express.json()); 
 
 // API Yollarını Sisteme Tanıtma
-app.use('/api/customers', customerRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/performances', performanceRoutes);
 app.use('/api/experiences', experienceRoutes);

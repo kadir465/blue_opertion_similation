@@ -46,26 +46,26 @@ BlueBot Copilot; kullanıcıların doğal dilde ilettikleri otomasyon ve kural t
 
 ### İlgili Dosyalar ve Sorumlulukları
 
-1. **[blue_bot_tools.json](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/blue_bot_tools.json)**
+1. **[blue_bot_tools.json](./blue_bot_tools.json)**
    - Sistemde yer alan tüm düğüm (tool) tanımlarını barındıran JSON veritabanıdır.
    - Her düğüm; `id`, `name`, `category`, `description`, `inputs` (giriş veri tipleri), `outputs` (çıkış veri tipleri), `params` (ayarlanabilir parametreler) bilgilerini içerir.
 
-2. **[routes/ragRoutes.js](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/routes/ragRoutes.js)**
+2. **[routes/ragRoutes.js](./routes/ragRoutes.js)**
    - Copilot ve RAG sisteminin ana backend motorudur.
    - `/api/rag/search-tools`: RAG arama algoritmasını çalıştırır.
    - `/api/rag/copilot`: Kullanıcı niyetini analiz eder, çok adımlı plan oluşturur ve canvas durumu ile planı senkronize eder.
 
-3. **[routes/graphBuilder.js](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/routes/graphBuilder.js)**
+3. **[routes/graphBuilder.js](./routes/graphBuilder.js)**
    - Düğümler arası tip uyumluluğunu (`areTypesCompatible`) denetler.
    - İki düğüm arasında yönlü graf arama algoritması (`findPath`) çalıştırarak otomatik bağlantı hatlarını hesaplar.
 
-4. **[routes/keyword_index.js](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/routes/keyword_index.js)**
+4. **[routes/keyword_index.js](./routes/keyword_index.js)**
    - RAG indekslemesi için metinlerden kelime köklerini (`extractStems`) çıkarır.
 
-5. **[ui_frontend/src/components/WorkflowEditor.jsx](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/ui_frontend/src/components/WorkflowEditor.jsx)**
+5. **[ui_frontend/src/components/WorkflowEditor.jsx](./ui_frontend/src/components/WorkflowEditor.jsx)**
    - Copilot sohbet arayüzünü, adım adım kontrol listesini ve hızlı ekleme butonunu sunan ana React bileşenidir.
 
-6. **[ui_frontend/src/components/WorkflowCanvas.jsx](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/ui_frontend/src/components/WorkflowCanvas.jsx)**
+6. **[ui_frontend/src/components/WorkflowCanvas.jsx](./ui_frontend/src/components/WorkflowCanvas.jsx)**
    - Sürükle-bırak düğüm kartlarını, canlı parametre formlarını ve SVG bağlantı çizgilerini çizen etkileşimli çalışma alanıdır.
 
 ---

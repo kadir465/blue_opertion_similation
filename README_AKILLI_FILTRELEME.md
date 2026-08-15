@@ -40,19 +40,19 @@ Bu modül sayesinde kullanıcılar karmaşık arama formlarını doldurmak yerin
 
 ### İlgili Dosyalar ve Sorumlulukları
 
-1. **[routes/smartFilterRoutes.js](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/routes/smartFilterRoutes.js)**
+1. **[routes/smartFilterRoutes.js](./routes/smartFilterRoutes.js)**
    - API Endpoint: `POST /api/rag/analyze-intent`
    - Girdi cümlesini analiz eder, regex ve dilbilgisi kurallarını uygular, performans süresini ölçer (`performance.now()`) ve süzgeç parametrelerini döndürür.
 
-2. **[routes/keyword_index.js](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/routes/keyword_index.js)**
+2. **[routes/keyword_index.js](./routes/keyword_index.js)**
    - Türkçe ek temizleme algoritması (`extractStems`) içerir.
    - İsim ve fiil eklerini (örn: `-leri`, `-daki`, `-miş`, `-lar`) temizleyerek kelimelerin yalın köklerini çıkarır.
 
-3. **[ui_frontend/src/components/RequestsView.jsx](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/ui_frontend/src/components/RequestsView.jsx)**
+3. **[ui_frontend/src/components/RequestsView.jsx](./ui_frontend/src/components/RequestsView.jsx)**
    - Talepler ekranındaki arama girdisini `POST /api/rag/analyze-intent` uç noktasına gönderir.
    - Gelen `mapped_parameters` yanıtına göre arayüzdeki bina, durum, kategori ve kelime süzgeçlerini otomatik olarak aktifleştirir.
 
-4. **[ui_frontend/src/components/PerformanceView.jsx](file:///c:/Users/kadir/OneDrive/Masa%C3%BCst%C3%BC/blue_bot_copilot_fixed%20%281%29/ui_frontend/src/components/PerformanceView.jsx)**
+4. **[ui_frontend/src/components/PerformanceView.jsx](./ui_frontend/src/components/PerformanceView.jsx)**
    - Performans analizi ekranında kullanıcı cümlesinden skor eşikleri (`minScore`) ve tarih aralıkları (`date_range`) çıkararak verileri anlık filtreler.
 
 ---
